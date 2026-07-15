@@ -16,7 +16,7 @@ export function Navbar() {
 
   return (
     <>
-      <motion.header 
+      <motion.header
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.1 }}
@@ -24,10 +24,10 @@ export function Navbar() {
       >
         <div className="flex justify-between items-center px-6 md:px-8 py-6">
           <Magnetic>
-            <Link 
-              href="/" 
+            <Link
+              href="/"
               className="transition-opacity duration-300 hover:opacity-70 select-none block"
-              style={{ 
+              style={{
                 fontSize: '0.75rem',
                 letterSpacing: '0.25em',
                 textTransform: 'uppercase',

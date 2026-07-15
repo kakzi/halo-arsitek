@@ -89,7 +89,7 @@ export const projects: Project[] = [
     area: '180 m²',
     description:
       'Kedai kopi specialty dengan area roasting terbuka. Desain industrial-warm menggunakan bata ekspos, baja hitam, dan pencahayaan ambient.',
-    coverImage: 'https://images.unsplash.com/photo-1600566753086-00f18f6b4fb2?w=720&h=1080&fit=crop',
+    coverImage: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=720&h=1080&fit=crop',
     images: [],
   },
 ];

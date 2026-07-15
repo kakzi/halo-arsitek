@@ -3,6 +3,8 @@
 /* ─── DESIGN TOKENS ─────────────────────────────────────────────────────── */
 
 @theme {
+  --color-white: #FFFFFF;
+  --color-black: #000000;
   --color-bg-primary: #FFFFFF;
   --color-bg-secondary: #FAFAFA;
   --color-bg-surface: #F5F5F5;

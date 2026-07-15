@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { playfair, inter, outfit } from '@/shared/lib/fonts';
 import { siteConfig } from '@/shared/config/site.config';
-import { Navbar } from '@/features/navigation';
+import { Navbar, BottomNav } from '@/features/navigation';
 import { PageTransition } from '@/shared/animations/page-transition';
 import './globals.css';
 
@@ -39,6 +39,7 @@ export default function RootLayout({
     >
       <body className="h-screen overflow-hidden">
         <Navbar />
+        <BottomNav />
         <PageTransition>
           {children}
         </PageTransition>
