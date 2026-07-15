@@ -7,6 +7,9 @@ import { navItems } from '@/shared/config/navigation.config';
 export function BottomNav() {
   return (
     <>
+      {/* Mobile Only: Bottom Gradient Background to prevent text overlap */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white via-white/90 to-transparent pointer-events-none z-40" />
+      
       {/* ── Fixed Bottom-left Nav ── */}
       <div 
         className="fixed bottom-0 md:bottom-8 left-0 md:left-12 w-full md:w-auto h-20 md:h-auto z-50 pl-6 md:pl-0 flex items-center"

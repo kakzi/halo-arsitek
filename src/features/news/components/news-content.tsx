@@ -50,12 +50,15 @@ const itemVariants: Variants = {
 
 export function NewsContent() {
   return (
-    <div className="fixed inset-0 bg-white overflow-y-auto pt-16">
+    <div className="fixed inset-0 bg-white overflow-y-auto pb-32">
+      {/* Sticky solid white block to protect the Navbar logo from scrolling text */}
+      <div className="sticky top-0 z-40 w-full h-[70px] md:h-[90px] bg-white" />
+
       <motion.div 
         variants={containerVariants}
         initial="hidden"
         animate="show"
-        className="container-narrow px-6 md:px-8 py-12"
+        className="container-narrow px-6 md:px-8 py-4"
       >
 
         <motion.h1 variants={itemVariants} className="text-2xl md:text-[2rem] mb-12"

@@ -108,3 +108,11 @@ a {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

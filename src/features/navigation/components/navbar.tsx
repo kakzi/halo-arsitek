@@ -23,21 +23,26 @@ export function Navbar() {
         className="fixed top-0 left-0 right-0 z-50 mix-blend-difference text-white"
       >
         <div className="flex justify-between items-center px-6 md:px-8 py-6">
-          <Magnetic>
-            <Link
-              href="/"
-              className="transition-opacity duration-300 hover:opacity-70 select-none block"
-              style={{
-                fontSize: '0.75rem',
-                letterSpacing: '0.25em',
-                textTransform: 'uppercase',
-                fontFamily: 'var(--font-outfit)',
-              }}
-              onClick={() => setIsMenuOpen(false)}
-            >
+          {/* Logo without Magnetic so it stays stable */}
+          <Link
+            href="/"
+            className="flex items-center gap-3 transition-opacity duration-300 hover:opacity-70 select-none"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            <img 
+              src="/logo/logo-halo-arsitek-white.png" 
+              alt="Halo Arsitek Logo" 
+              className="w-7 h-7 md:w-8 md:h-8 object-contain"
+            />
+            <span style={{
+              fontSize: '0.75rem',
+              letterSpacing: '0.25em',
+              textTransform: 'uppercase',
+              fontFamily: 'var(--font-outfit)',
+            }}>
               {siteConfig.name}
-            </Link>
-          </Magnetic>
+            </span>
+          </Link>
 
           {/* Hamburger Menu Toggle */}
           <Magnetic>

@@ -25,7 +25,11 @@ export const projects: Project[] = [
     description:
       'Villa modern 2 lantai dengan konsep tropical minimalist. Perpaduan material beton ekspos, kayu jati, dan kaca lebar menciptakan harmoni antara arsitektur kontemporer dan alam Bali.',
     coverImage: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=720&h=1080&fit=crop',
-    images: [],
+    images: [
+      'https://images.unsplash.com/photo-1600607687931-ce8a6c25118c?w=1080&fit=crop',
+      'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1080&fit=crop',
+      'https://images.unsplash.com/photo-1600566753190-17f0baa2cb6a?w=1080&fit=crop',
+    ],
   },
   {
     id: '2',
@@ -38,7 +42,10 @@ export const projects: Project[] = [
     description:
       'Ruang kerja kolaboratif 3 lantai dengan desain industrial modern. Open floor plan, area breakout, dan rooftop garden untuk produktivitas tim kreatif.',
     coverImage: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=720&h=1080&fit=crop',
-    images: [],
+    images: [
+      'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1080&fit=crop',
+      'https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=1080&fit=crop',
+    ],
   },
   {
     id: '3',
@@ -51,7 +58,10 @@ export const projects: Project[] = [
     description:
       'Hunian keluarga bergaya tropis kontemporer. Courtyard terbuka di tengah rumah menghadirkan sirkulasi udara alami dan cahaya matahari yang optimal.',
     coverImage: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=720&h=1080&fit=crop',
-    images: [],
+    images: [
+      'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1080&fit=crop',
+      'https://images.unsplash.com/photo-1600607687931-ce8a6c25118c?w=1080&fit=crop',
+    ],
   },
   {
     id: '4',
@@ -64,7 +74,9 @@ export const projects: Project[] = [
     description:
       'Redesain total apartemen 2BR menjadi hunian minimalis bergaya Japandi. Furnitur built-in dan palette kayu-putih menciptakan kesan luas dan tenang.',
     coverImage: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=720&h=1080&fit=crop',
-    images: [],
+    images: [
+      'https://images.unsplash.com/photo-1600607687931-ce8a6c25118c?w=1080&fit=crop',
+    ],
   },
   {
     id: '5',
@@ -77,7 +89,10 @@ export const projects: Project[] = [
     description:
       'Kompleks resort boutique 12 villa dengan spa dan infinity pool menghadap laut. Arsitektur lokal Sasak diinterpretasi ulang dengan sentuhan modern.',
     coverImage: 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=720&h=1080&fit=crop',
-    images: [],
+    images: [
+      'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1080&fit=crop',
+      'https://images.unsplash.com/photo-1540541338287-41700207dee6?w=1080&fit=crop',
+    ],
   },
   {
     id: '6',
@@ -90,7 +105,10 @@ export const projects: Project[] = [
     description:
       'Kedai kopi specialty dengan area roasting terbuka. Desain industrial-warm menggunakan bata ekspos, baja hitam, dan pencahayaan ambient.',
     coverImage: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=720&h=1080&fit=crop',
-    images: [],
+    images: [
+      'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?w=1080&fit=crop',
+      'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1080&fit=crop',
+    ],
   },
 ];
 
