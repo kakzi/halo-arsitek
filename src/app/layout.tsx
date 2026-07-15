@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { playfair, inter, outfit } from '@/shared/lib/fonts';
 import { siteConfig } from '@/shared/config/site.config';
-import { Navbar, BottomNav } from '@/features/navigation';
-import { PageTransition } from '@/shared/animations/page-transition';
+import { GoogleAnalytics } from '@next/third-parties/google';
+import { Tracker } from '@/features/analytics/components/tracker';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -27,23 +27,36 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+import { prisma } from '@/shared/lib/prisma';
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  let gaId = '';
+  try {
+    const gaSetting = await prisma.siteSetting.findUnique({
+      where: { key: 'google_analytics_id' },
+    });
+    if (gaSetting && gaSetting.value) {
+      gaId = gaSetting.value;
+    }
+  } catch (error) {
+    console.error('Failed to fetch GA ID:', error);
+  }
+
   return (
     <html
       lang="id"
       className={`${playfair.variable} ${inter.variable} ${outfit.variable}`}
+      suppressHydrationWarning
     >
-      <body className="h-screen overflow-hidden">
-        <Navbar />
-        <BottomNav />
-        <PageTransition>
-          {children}
-        </PageTransition>
+      <body className="min-h-screen">
+        {children}
       </body>
+      <Tracker />
+      {gaId && <GoogleAnalytics gaId={gaId} />}
     </html>
   );
 }
