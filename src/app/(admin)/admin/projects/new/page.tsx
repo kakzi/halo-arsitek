@@ -2,8 +2,8 @@
 
 import { useState, useEffect, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import { AdminTopbar } from '@/features/admin';
-import { Upload, Save, X, Plus, Trash2 } from 'lucide-react';
+import { AdminTopbar, MarkdownEditor } from '@/features/admin';
+import { Upload, Save, X, Plus, Trash2, ArrowLeft, ArrowRight, Star } from 'lucide-react';
 
 export default function NewProjectPage() {
   const router = useRouter();
@@ -89,6 +89,22 @@ export default function NewProjectPage() {
       ...prev,
       images: prev.images.filter((_, idx) => idx !== indexToRemove),
     }));
+  };
+
+  const moveGalleryImage = (fromIdx: number, direction: 'left' | 'right') => {
+    setForm((prev) => {
+      const toIdx = direction === 'left' ? fromIdx - 1 : fromIdx + 1;
+      if (toIdx < 0 || toIdx >= prev.images.length) return prev;
+      const newImages = [...prev.images];
+      const temp = newImages[fromIdx];
+      newImages[fromIdx] = newImages[toIdx];
+      newImages[toIdx] = temp;
+      return { ...prev, images: newImages };
+    });
+  };
+
+  const setAsCover = (imgUrl: string) => {
+    setForm((prev) => ({ ...prev, coverImage: imgUrl }));
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -266,19 +282,14 @@ export default function NewProjectPage() {
             </div>
 
             {/* Description */}
-            <div style={{ marginBottom: '24px' }}>
-              <label style={labelStyle}>Description</label>
-              <textarea
-                value={form.description}
-                onChange={(e) => setForm((prev) => ({ ...prev, description: e.target.value }))}
-                placeholder="Detailed description of this architectural project..."
-                required
-                rows={5}
-                style={{ ...inputStyle, resize: 'vertical' }}
-                onFocus={(e) => (e.target.style.borderColor = 'var(--admin-primary)')}
-                onBlur={(e) => (e.target.style.borderColor = 'var(--admin-border)')}
-              />
-            </div>
+            <MarkdownEditor
+              value={form.description}
+              onChange={(val) => setForm((prev) => ({ ...prev, description: val }))}
+              label="Description"
+              required
+              rows={6}
+              placeholder="Detailed description of this architectural project (supports Markdown formatting)..."
+            />
 
             {/* Cover Image */}
             <div style={{ marginBottom: '24px' }}>
@@ -410,64 +421,154 @@ export default function NewProjectPage() {
               </div>
 
               {form.images.length > 0 ? (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '12px' }}>
-                  {form.images.map((imgUrl, idx) => (
-                    <div
-                      key={idx}
-                      style={{
-                        position: 'relative',
-                        borderRadius: '8px',
-                        border: '1px solid var(--admin-border)',
-                        overflow: 'hidden',
-                        background: 'var(--admin-bg-page)',
-                        aspectRatio: '1',
-                      }}
-                    >
-                      <img
-                        src={imgUrl}
-                        alt={`Gallery ${idx + 1}`}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                        onError={(e) => (e.currentTarget.style.display = 'none')}
-                      />
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '16px' }}>
+                  {form.images.map((imgUrl, idx) => {
+                    const isCover = form.coverImage === imgUrl;
+                    return (
                       <div
+                        key={idx}
                         style={{
-                          position: 'absolute',
-                          top: '6px',
-                          left: '6px',
-                          background: 'rgba(0,0,0,0.6)',
-                          color: '#FFFFFF',
-                          fontSize: '0.6875rem',
-                          padding: '2px 6px',
-                          borderRadius: '4px',
-                          fontFamily: 'var(--font-outfit), sans-serif',
-                        }}
-                      >
-                        #{idx + 1}
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => removeGalleryImage(idx)}
-                        title="Remove image"
-                        style={{
-                          position: 'absolute',
-                          top: '6px',
-                          right: '6px',
-                          width: '24px',
-                          height: '24px',
-                          borderRadius: '50%',
-                          background: 'rgba(239, 68, 68, 0.9)',
-                          color: '#FFFFFF',
-                          border: 'none',
-                          cursor: 'pointer',
+                          position: 'relative',
+                          borderRadius: '10px',
+                          border: isCover ? '2px solid var(--admin-primary)' : '1px solid var(--admin-border)',
+                          overflow: 'hidden',
+                          background: 'var(--admin-bg-page)',
                           display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
+                          flexDirection: 'column',
+                          boxShadow: isCover ? '0 0 0 2px rgba(99,102,241,0.2)' : 'none',
                         }}
                       >
-                        <Trash2 size={13} />
-                      </button>
-                    </div>
-                  ))}
+                        <div style={{ position: 'relative', aspectRatio: '1', width: '100%' }}>
+                          <img
+                            src={imgUrl}
+                            alt={`Gallery ${idx + 1}`}
+                            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                            onError={(e) => (e.currentTarget.style.display = 'none')}
+                          />
+                          <div
+                            style={{
+                              position: 'absolute',
+                              top: '6px',
+                              left: '6px',
+                              background: 'rgba(0,0,0,0.65)',
+                              color: '#FFFFFF',
+                              fontSize: '0.6875rem',
+                              padding: '2px 6px',
+                              borderRadius: '4px',
+                              fontFamily: 'var(--font-outfit), sans-serif',
+                              fontWeight: 600,
+                            }}
+                          >
+                            #{idx + 1}
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => removeGalleryImage(idx)}
+                            title="Remove image"
+                            style={{
+                              position: 'absolute',
+                              top: '6px',
+                              right: '6px',
+                              width: '26px',
+                              height: '26px',
+                              borderRadius: '50%',
+                              background: 'rgba(239, 68, 68, 0.9)',
+                              color: '#FFFFFF',
+                              border: 'none',
+                              cursor: 'pointer',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                            }}
+                          >
+                            <Trash2 size={13} />
+                          </button>
+                        </div>
+
+                        {/* Controls bar */}
+                        <div
+                          style={{
+                            padding: '8px',
+                            background: 'var(--admin-bg-card)',
+                            borderTop: '1px solid var(--admin-border)',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '6px',
+                          }}
+                        >
+                          <div style={{ display: 'flex', justifyContent: 'space-between', gap: '4px' }}>
+                            <button
+                              type="button"
+                              onClick={() => moveGalleryImage(idx, 'left')}
+                              disabled={idx === 0}
+                              title="Move left"
+                              style={{
+                                flex: 1,
+                                padding: '4px 8px',
+                                background: idx === 0 ? 'transparent' : 'var(--admin-hover-bg)',
+                                border: '1px solid var(--admin-border)',
+                                borderRadius: '6px',
+                                color: idx === 0 ? 'var(--admin-text-secondary)' : 'var(--admin-text-primary)',
+                                opacity: idx === 0 ? 0.4 : 1,
+                                cursor: idx === 0 ? 'not-allowed' : 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontSize: '0.75rem',
+                              }}
+                            >
+                              <ArrowLeft size={13} />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => moveGalleryImage(idx, 'right')}
+                              disabled={idx === form.images.length - 1}
+                              title="Move right"
+                              style={{
+                                flex: 1,
+                                padding: '4px 8px',
+                                background: idx === form.images.length - 1 ? 'transparent' : 'var(--admin-hover-bg)',
+                                border: '1px solid var(--admin-border)',
+                                borderRadius: '6px',
+                                color: idx === form.images.length - 1 ? 'var(--admin-text-secondary)' : 'var(--admin-text-primary)',
+                                opacity: idx === form.images.length - 1 ? 0.4 : 1,
+                                cursor: idx === form.images.length - 1 ? 'not-allowed' : 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontSize: '0.75rem',
+                              }}
+                            >
+                              <ArrowRight size={13} />
+                            </button>
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={() => setAsCover(imgUrl)}
+                            style={{
+                              width: '100%',
+                              padding: '5px 8px',
+                              background: isCover ? 'var(--admin-primary)' : 'transparent',
+                              border: isCover ? 'none' : '1px solid var(--admin-border)',
+                              borderRadius: '6px',
+                              color: isCover ? '#FFFFFF' : 'var(--admin-text-secondary)',
+                              fontSize: '0.75rem',
+                              fontWeight: isCover ? 600 : 400,
+                              cursor: 'pointer',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              gap: '4px',
+                            }}
+                          >
+                            <Star size={12} fill={isCover ? '#FFFFFF' : 'none'} />
+                            {isCover ? 'Cover Image' : 'Set Cover'}
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               ) : (
                 <div

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { AdminTopbar } from '@/features/admin';
-import { Building2, Plus, Edit2, Trash2, CheckCircle2, CircleSlash } from 'lucide-react';
+import { Building2, Plus, Edit2, Trash2, CheckCircle2, CircleSlash, ExternalLink } from 'lucide-react';
 
 interface Project {
   id: string;
@@ -202,7 +202,29 @@ export default function ProjectsPage() {
                       </button>
                     </td>
                     <td style={{ padding: '14px 20px' }}>
-                      <div style={{ display: 'flex', gap: '8px' }}>
+                      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                        {project.slug && (
+                          <Link
+                            href={`/projects/${project.slug}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                              padding: '6px 12px',
+                              borderRadius: '6px',
+                              background: 'transparent',
+                              color: 'var(--admin-text-secondary)',
+                              fontSize: '0.75rem',
+                              textDecoration: 'none',
+                              border: '1px solid var(--admin-border)',
+                              transition: 'all 0.2s',
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '4px',
+                            }}
+                          >
+                            <ExternalLink size={13} /> View Live
+                          </Link>
+                        )}
                         <Link
                           href={`/admin/projects/${project.id}/edit`}
                           style={{

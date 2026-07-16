@@ -125,6 +125,7 @@ model Testimonial {
   name        String   @db.VarChar(255)
   role        String   @db.VarChar(255)
   project     String   @db.VarChar(255)
+  avatarUrl   String?  @map("avatar_url") @db.VarChar(500)
   isPublished Boolean  @default(false) @map("is_published")
   sortOrder   Int      @default(0) @map("sort_order")
   createdAt   DateTime @default(now()) @map("created_at")
@@ -214,4 +215,18 @@ model PageView {
   @@index([createdAt])
   @@index([path])
   @@map("page_views")
+}
+
+model ActivityLog {
+  id        String   @id @default(uuid())
+  action    String   @db.VarChar(100)
+  details   String?  @db.Text
+  adminName String   @map("admin_name") @db.VarChar(255)
+  adminRole String   @map("admin_role") @db.VarChar(50)
+  ipAddress String?  @map("ip_address") @db.VarChar(45)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([action])
+  @@index([createdAt])
+  @@map("activity_logs")
 }

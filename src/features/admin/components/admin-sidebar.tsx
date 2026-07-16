@@ -23,9 +23,24 @@ import {
   FolderTree,
   FileText,
   BarChart3,
+  Shield,
+  UserCog,
+  History,
 } from 'lucide-react';
 
-const navGroups = [
+interface NavItem {
+  label: string;
+  href: string;
+  icon: React.ReactNode;
+  allowedRoles?: string[];
+}
+
+interface NavGroup {
+  title: string;
+  items: NavItem[];
+}
+
+const navGroups: NavGroup[] = [
   {
     title: 'Main',
     items: [
@@ -54,6 +69,9 @@ const navGroups = [
     items: [
       { label: 'Contacts', href: '/admin/contacts', icon: <Mail size={20} /> },
       { label: 'Analytics', href: '/admin/analytics', icon: <BarChart3 size={20} /> },
+      { label: 'Audit Logs', href: '/admin/logs', icon: <History size={20} /> },
+      { label: 'Manage Admins', href: '/admin/admins', icon: <Shield size={20} />, allowedRoles: ['SUPER_ADMIN'] },
+      { label: 'Edit Profile', href: '/admin/profile', icon: <UserCog size={20} /> },
       { label: 'Settings', href: '/admin/settings', icon: <Settings size={20} /> },
     ]
   }
@@ -194,27 +212,33 @@ export function AdminSidebar() {
 
       {/* Navigation */}
       <nav style={{ flex: 1, padding: '12px 8px', overflowY: 'auto' }}>
-        {navGroups.map((group, idx) => (
-          <div key={group.title} style={{ marginBottom: idx === navGroups.length - 1 ? '0' : '16px' }}>
-            {!collapsed && (
-              <div
-                style={{
-                  padding: '0 16px',
-                  marginBottom: '12px',
-                  marginTop: '16px',
-                  fontSize: '0.6875rem',
-                  fontWeight: 600,
-                  color: sidebarTextMuted,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.1em',
-                  fontFamily: 'var(--font-outfit), sans-serif',
-                }}
-              >
-                {group.title}
-              </div>
-            )}
-            {group.items.map((item) => {
-              const active = isActive(item.href);
+        {navGroups.map((group, idx) => {
+          const visibleItems = group.items.filter(
+            (item) => !item.allowedRoles || (admin && item.allowedRoles.includes(admin.role))
+          );
+          if (visibleItems.length === 0) return null;
+
+          return (
+            <div key={group.title} style={{ marginBottom: idx === navGroups.length - 1 ? '0' : '16px' }}>
+              {!collapsed && (
+                <div
+                  style={{
+                    padding: '0 16px',
+                    marginBottom: '12px',
+                    marginTop: '16px',
+                    fontSize: '0.6875rem',
+                    fontWeight: 600,
+                    color: sidebarTextMuted,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.1em',
+                    fontFamily: 'var(--font-outfit), sans-serif',
+                  }}
+                >
+                  {group.title}
+                </div>
+              )}
+              {visibleItems.map((item) => {
+                const active = isActive(item.href);
               return (
                 <Link
                   key={item.href}
@@ -271,9 +295,10 @@ export function AdminSidebar() {
                   {!collapsed && <span>{item.label}</span>}
                 </Link>
               );
-            })}
-          </div>
-        ))}
+              })}
+            </div>
+          );
+        })}
       </nav>
 
       {/* User Section / Logout */}

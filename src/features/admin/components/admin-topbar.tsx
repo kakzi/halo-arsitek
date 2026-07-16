@@ -5,6 +5,7 @@ import { useAdminUI } from '../context/admin-ui-context';
 import { useTheme } from 'next-themes';
 import { Moon, Sun, Menu as MenuIcon, ExternalLink } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 export function AdminTopbar({ title, subtitle }: { title: string; subtitle?: string }) {
   const { admin } = useAuth();
@@ -153,14 +154,17 @@ export function AdminTopbar({ title, subtitle }: { title: string; subtitle?: str
 
         {/* Admin Avatar */}
         {admin && (
-          <div
+          <Link
+            href="/admin/profile"
+            title="Edit Profile"
             style={{
               display: 'flex',
               alignItems: 'center',
               gap: '12px',
               cursor: 'pointer',
-              padding: '4px',
+              padding: '4px 8px',
               borderRadius: '8px',
+              textDecoration: 'none',
               transition: 'background 0.2s',
             }}
             onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--admin-hover-bg)')}
@@ -191,7 +195,7 @@ export function AdminTopbar({ title, subtitle }: { title: string; subtitle?: str
             >
               {admin.name.charAt(0).toUpperCase()}
             </div>
-          </div>
+          </Link>
         )}
       </div>
     </header>

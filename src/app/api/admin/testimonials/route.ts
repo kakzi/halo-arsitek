@@ -8,6 +8,7 @@ const createTestimonialSchema = z.object({
   name: z.string().min(1, 'Nama wajib diisi').max(255),
   role: z.string().min(1, 'Role wajib diisi').max(255),
   project: z.string().min(1, 'Nama proyek wajib diisi').max(255),
+  avatarUrl: z.string().nullable().optional(),
   isPublished: z.boolean().default(false),
   sortOrder: z.number().int().default(0),
 });

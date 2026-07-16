@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useState, type FormEvent } from 'react';
-import { AdminTopbar } from '@/features/admin';
-import { FileText, Edit2, Trash2, Plus, Save, X, Upload } from 'lucide-react';
+import Link from 'next/link';
+import { AdminTopbar, MarkdownEditor } from '@/features/admin';
+import { FileText, Edit2, Trash2, Plus, Save, X, Upload, ExternalLink } from 'lucide-react';
 import Image from 'next/image';
 
 interface Category {
@@ -167,7 +168,14 @@ export default function NewsPage() {
                   <label htmlFor="isPublished" style={{ fontSize: '0.875rem', color: 'var(--admin-text-primary)' }}>Published</label>
                 </div>
               </div>
-              <div style={{ marginBottom: '16px' }}><label style={labelStyle}>Content (HTML)</label><textarea value={form.content} onChange={(e) => setForm((p) => ({ ...p, content: e.target.value }))} required rows={8} style={{ ...inputStyle, resize: 'vertical' }} onFocus={(e) => (e.target.style.borderColor = 'var(--admin-primary)')} onBlur={(e) => (e.target.style.borderColor = 'var(--admin-border)')} /></div>
+              <MarkdownEditor
+                value={form.content}
+                onChange={(val) => setForm((p) => ({ ...p, content: val }))}
+                label="Content (Supports Markdown)"
+                required
+                rows={10}
+                placeholder="Write news article content here (supports Markdown formatting)..."
+              />
               <div style={{ display: 'flex', gap: '12px' }}>
                 <button type="submit" style={{ padding: '10px 20px', background: 'var(--admin-primary)', border: 'none', borderRadius: '8px', color: '#FFFFFF', fontSize: '0.8125rem', fontWeight: 600, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '6px' }}><Save size={15} /> {editingId ? 'Update' : 'Save'}</button>
                 <button type="button" onClick={resetForm} style={{ padding: '10px 20px', background: 'transparent', border: '1px solid var(--admin-border)', borderRadius: '8px', color: 'var(--admin-text-secondary)', fontSize: '0.8125rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '6px' }}><X size={15} /> Cancel</button>
@@ -191,7 +199,17 @@ export default function NewsPage() {
                 <p style={{ color: 'var(--admin-text-secondary)', fontSize: '0.75rem', margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: '4px' }}>
                   {new Date(n.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                 </p>
-                <div style={{ display: 'flex', gap: '8px', marginTop: 'auto', paddingTop: '16px', borderTop: '1px solid #F3F4F6' }}>
+                <div style={{ display: 'flex', gap: '8px', marginTop: 'auto', paddingTop: '16px', borderTop: '1px solid var(--admin-border)' }}>
+                  {n.slug && (
+                    <Link
+                      href={`/news/${n.slug}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ flex: 1, padding: '8px', borderRadius: '6px', background: 'transparent', color: 'var(--admin-text-secondary)', fontSize: '0.8125rem', border: '1px solid var(--admin-border)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', textDecoration: 'none' }}
+                    >
+                      <ExternalLink size={14} /> View
+                    </Link>
+                  )}
                   <button onClick={() => handleEdit(n)} style={{ flex: 1, padding: '8px', borderRadius: '6px', background: 'var(--admin-hover-bg)', color: 'var(--admin-text-primary)', fontSize: '0.8125rem', border: '1px solid var(--admin-border)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}><Edit2 size={14} /> Edit</button>
                   <button onClick={() => handleDelete(n.id)} style={{ flex: 1, padding: '8px', borderRadius: '6px', background: 'rgba(239,68,68,0.1)', color: '#EF4444', fontSize: '0.8125rem', border: '1px solid rgba(239,68,68,0.2)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}><Trash2 size={14} /> Delete</button>
                 </div>
