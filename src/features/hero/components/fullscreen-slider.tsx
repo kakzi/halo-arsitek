@@ -11,12 +11,12 @@ import { Magnetic } from '@/shared/animations/magnetic';
 const AUTOSLIDE_INTERVAL = 6000; // 6 seconds
 
 const slideVariants: Variants = {
-  enter: (dir: number) => ({ 
+  enter: (dir: number) => ({
     opacity: 0,
     scale: 1.05,
     filter: 'blur(10px)'
   }),
-  center: { 
+  center: {
     opacity: 1,
     scale: 1,
     filter: 'blur(0px)',
@@ -25,8 +25,8 @@ const slideVariants: Variants = {
       ease: [0.19, 1, 0.22, 1] as any
     }
   },
-  exit: (dir: number) => ({ 
-    opacity: 0, 
+  exit: (dir: number) => ({
+    opacity: 0,
     zIndex: 0,
     transition: {
       duration: 0.8, 
@@ -37,7 +37,7 @@ const slideVariants: Variants = {
 
 export function FullscreenSlider() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState(0); 
+  const [direction, setDirection] = useState(0);
   const [isClient, setIsClient] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
 
@@ -70,12 +70,12 @@ export function FullscreenSlider() {
   const swipePower = (offset: number, velocity: number) => Math.abs(offset) * velocity;
 
   return (
-    <div 
-      className="fixed inset-0 bg-white flex flex-col items-center justify-center select-none overflow-hidden" 
+    <div
+      className="fixed inset-0 bg-white flex flex-col items-center justify-center select-none overflow-hidden"
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      
+
       {/* ── Boxed Image Container ── */}
       <div className="relative w-[calc(100vw-2rem)] md:w-[calc(100vw-4rem)] h-[calc(100vh-11rem)] md:h-[calc(100vh-10rem)] overflow-hidden rounded-[2rem] md:rounded-3xl shadow-2xl">
         <AnimatePresence initial={false} custom={direction}>
@@ -115,13 +115,13 @@ export function FullscreenSlider() {
             </motion.div>
           </motion.div>
         </AnimatePresence>
-        
+
         {/* Premium Vignette & Gradient Overlay */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.2)_100%)] pointer-events-none z-10" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-black/30 pointer-events-none z-10" />
 
         {/* ── Content Inside the Box ── */}
-        
+
         {/* Caption Overlay */}
         <div className="absolute bottom-24 md:bottom-16 left-6 md:left-12 z-20 pointer-events-none">
           <div className="overflow-hidden mb-3">
@@ -141,7 +141,7 @@ export function FullscreenSlider() {
               </motion.div>
             </AnimatePresence>
           </div>
-          
+
           <div className="overflow-hidden py-2">
             <AnimatePresence mode="wait">
               <motion.div
@@ -176,10 +176,10 @@ export function FullscreenSlider() {
               {String(currentIndex + 1).padStart(2, '0')}
             </motion.span>
           </AnimatePresence>
-          
+
           {/* Progress indicator */}
           <div className="w-[2px] h-20 bg-white/20 relative overflow-hidden rounded-full">
-            <motion.div 
+            <motion.div
               key={currentIndex}
               className="w-full bg-white absolute top-0 left-0"
               initial={{ height: 0 }}
@@ -196,7 +196,7 @@ export function FullscreenSlider() {
         {/* ── Arrows (Inside Box Bottom-right) ── */}
         <div className="absolute bottom-8 md:bottom-12 right-6 md:right-10 z-30 flex items-center gap-2 md:gap-4">
           <Magnetic>
-            <button 
+            <button
               onClick={handlePrev}
               className="w-10 h-10 md:w-16 md:h-16 flex items-center justify-center rounded-full border border-white/20 text-white hover:bg-white hover:text-black transition-all duration-300 backdrop-blur-md bg-black/20"
             >
@@ -206,7 +206,7 @@ export function FullscreenSlider() {
             </button>
           </Magnetic>
           <Magnetic>
-            <button 
+            <button
               onClick={handleNext}
               className="w-10 h-10 md:w-16 md:h-16 flex items-center justify-center rounded-full border border-white/20 text-white hover:bg-white hover:text-black transition-all duration-300 backdrop-blur-md bg-black/20"
             >
