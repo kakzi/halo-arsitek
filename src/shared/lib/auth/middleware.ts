@@ -43,3 +43,26 @@ export function isAuthError(
 ): result is { error: NextResponse } {
   return 'error' in result;
 }
+
+/**
+ * Validate the admin session AND check if the admin has one of the required roles.
+ * Returns the admin payload if valid and authorized, or a 401/403 response.
+ */
+export async function requireRole(
+  request: NextRequest,
+  allowedRoles: ('SUPER_ADMIN' | 'ADMIN')[]
+): Promise<{ admin: AdminJWTPayload } | { error: NextResponse }> {
+  const auth = await requireAuth(request);
+  if (isAuthError(auth)) return auth;
+
+  if (!allowedRoles.includes(auth.admin.role as 'SUPER_ADMIN' | 'ADMIN')) {
+    return {
+      error: NextResponse.json(
+        { error: 'Forbidden — insufficient role permissions for this action' },
+        { status: 403 }
+      ),
+    };
+  }
+
+  return auth;
+}

@@ -26,7 +26,7 @@ export function SectionHeading({
       {subtitle && (
         <span
           className="inline-block text-sm font-medium uppercase tracking-[0.2em] mb-4"
-          style={{ color: '#C8A97E', fontFamily: 'var(--font-outfit)' }}
+          style={{ color: '#1E293B', fontFamily: 'var(--font-outfit)' }}
         >
           {subtitle}
         </span>

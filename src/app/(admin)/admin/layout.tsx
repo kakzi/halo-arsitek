@@ -10,6 +10,8 @@ function AdminLayoutContent({ children, isLoginPage, sidebarWidth }: { children:
 
   return (
     <div
+      className="admin-root"
+      data-admin-root="true"
       style={{
         minHeight: '100vh',
         background: 'var(--admin-bg-page)',
@@ -32,6 +34,8 @@ function AdminLayoutContent({ children, isLoginPage, sidebarWidth }: { children:
         />
       )}
       <main
+        className="admin-root"
+        data-admin-root="true"
         style={{
           flex: 1,
           marginLeft: isLoginPage || isMobile ? 0 : `${sidebarWidth}px`,

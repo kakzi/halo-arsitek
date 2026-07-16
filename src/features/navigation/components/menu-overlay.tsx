@@ -35,7 +35,7 @@ export function MenuOverlay({ onClose }: MenuOverlayProps) {
   }, []);
 
   return (
-    <motion.div 
+    <motion.div
       variants={overlayVariants}
       initial="initial"
       animate="animate"
@@ -45,7 +45,7 @@ export function MenuOverlay({ onClose }: MenuOverlayProps) {
       <div className="w-full max-w-[1200px] mx-auto flex flex-col md:flex-row justify-between gap-16 pt-20">
 
         {/* Links */}
-        <motion.nav 
+        <motion.nav
           variants={linkContainerVariants}
           initial="initial"
           animate="animate"
@@ -58,11 +58,11 @@ export function MenuOverlay({ onClose }: MenuOverlayProps) {
                 <Link
                   href={item.href}
                   onClick={onClose}
-                  className="text-4xl md:text-6xl text-white hover:text-[#A67C52] transition-colors duration-300 flex items-center gap-6 group"
+                  className="text-4xl md:text-6xl text-white hover:text-[#94A3B8] transition-colors duration-300 flex items-center gap-6 group"
                   style={{ fontFamily: 'var(--font-playfair)', letterSpacing: '-0.03em' }}
                 >
-                  <span 
-                    className="text-[0.75rem] text-[#808080] group-hover:text-[#A67C52] transition-colors tracking-widest mt-2"
+                  <span
+                    className="text-[0.75rem] text-[#808080] group-hover:text-[#94A3B8] transition-colors tracking-widest mt-2"
                     style={{ fontFamily: 'var(--font-outfit)' }}
                   >
                     0{i + 1}
@@ -75,7 +75,7 @@ export function MenuOverlay({ onClose }: MenuOverlayProps) {
         </motion.nav>
 
         {/* Contact Info */}
-        <motion.div 
+        <motion.div
           variants={linkVariants}
           initial="initial"
           animate="animate"
@@ -93,12 +93,12 @@ export function MenuOverlay({ onClose }: MenuOverlayProps) {
             <FaPhoneAlt className="w-4 h-4" />
             {siteConfig.contact.phone}
           </a>
-          
+
           <div className="flex flex-wrap gap-6 mt-10 mb-10">
             {Object.entries(siteConfig.social).map(([platform, url]) => {
               const Icon = platform.toLowerCase() === 'instagram' ? FaInstagram :
-                           platform.toLowerCase() === 'linkedin' ? FaLinkedin :
-                           platform.toLowerCase() === 'pinterest' ? FaPinterest : null;
+                platform.toLowerCase() === 'linkedin' ? FaLinkedin :
+                  platform.toLowerCase() === 'pinterest' ? FaPinterest : null;
               return (
                 <a key={platform} href={url as string} target="_blank" rel="noopener noreferrer"
                   className="text-[#808080] hover:text-[#A67C52] transition-colors flex items-center gap-2 text-xs uppercase tracking-widest"
@@ -110,9 +110,9 @@ export function MenuOverlay({ onClose }: MenuOverlayProps) {
             })}
           </div>
 
-          <a 
-            href="https://wa.me/6285155105056" 
-            target="_blank" 
+          <a
+            href="https://wa.me/6285155105056"
+            target="_blank"
             rel="noopener noreferrer"
             className="w-full md:w-auto inline-flex items-center justify-center gap-3 bg-[#A67C52] hover:bg-[#8A6541] text-white py-4 px-8 rounded-sm transition-colors uppercase tracking-widest text-xs font-medium"
             style={{ fontFamily: 'var(--font-outfit)' }}

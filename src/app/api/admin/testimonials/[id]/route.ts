@@ -8,6 +8,7 @@ const updateTestimonialSchema = z.object({
   name: z.string().min(1).max(255).optional(),
   role: z.string().min(1).max(255).optional(),
   project: z.string().min(1).max(255).optional(),
+  avatarUrl: z.string().nullable().optional(),
   isPublished: z.boolean().optional(),
   sortOrder: z.number().int().optional(),
 });

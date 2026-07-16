@@ -63,7 +63,7 @@ export async function PUT(request: NextRequest) {
       )
     );
 
-    return NextResponse.json({ data: results, message: 'Settings berhasil diperbarui' });
+    return NextResponse.json({ data: results, message: 'Settings updated successfully' });
   } catch (error) {
     console.error('Update settings error:', error);
     return NextResponse.json({ error: 'Server error' }, { status: 500 });

@@ -6,7 +6,7 @@ import { prisma } from '@/shared/lib/prisma';
 export async function Footer() {
   const currentYear = new Date().getFullYear();
   const dbSettings = await prisma.siteSetting.findMany();
-  
+
   const getSetting = (key: string, fallback: string) => {
     return dbSettings.find(s => s.key === key)?.value || fallback;
   };
@@ -25,11 +25,11 @@ export async function Footer() {
     <footer className="bg-[#050505] pt-24 pb-12 px-6 md:px-12 border-t border-[#2C2C2E]/30">
       <div className="container-custom">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-24">
-          
+
           {/* Brand */}
           <div className="lg:col-span-1">
-            <Link 
-              href="/" 
+            <Link
+              href="/"
               className="text-3xl font-bold tracking-tight text-white block mb-6"
               style={{ fontFamily: 'var(--font-playfair)' }}
             >
@@ -46,9 +46,9 @@ export async function Footer() {
             <ul className="flex flex-col gap-4">
               {navItems.map((item) => (
                 <li key={item.label}>
-                  <Link 
+                  <Link
                     href={item.href}
-                    className="text-[#8A8A8E] hover:text-[#C8A97E] transition-colors text-sm"
+                    className="text-[#8A8A8E] hover:text-[#F5F5F5] transition-colors text-sm"
                   >
                     {item.label}
                   </Link>

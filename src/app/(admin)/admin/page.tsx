@@ -90,10 +90,10 @@ export default function AdminDashboardPage() {
 
   const statCards = stats
     ? [
-        { label: 'Total Projects', value: stats.projects.total, sub: `${stats.projects.published} published`, icon: <Building2 size={28} />, color: '#C8A97E' },
+        { label: 'Total Projects', value: stats.projects.total, sub: `${stats.projects.published} published`, icon: <Building2 size={28} />, color: 'var(--admin-primary)' },
         { label: 'Total News', value: stats.news.total, sub: `${stats.news.published} published`, icon: <FileText size={28} />, color: '#60A5FA' },
         { label: 'Contacts', value: stats.contacts.total, sub: `${stats.contacts.unread} unread`, icon: <Mail size={28} />, color: '#F472B6' },
-        { label: 'Page Views', value: stats.pageViews.total, sub: `${stats.pageViews.today} hari ini`, icon: <Eye size={28} />, color: '#06B6D4' },
+        { label: 'Page Views', value: stats.pageViews.total, sub: `${stats.pageViews.today} today`, icon: <Eye size={28} />, color: '#06B6D4' },
       ]
     : [];
 
@@ -106,7 +106,7 @@ export default function AdminDashboardPage() {
 
   return (
     <>
-      <AdminTopbar title="Dashboard" subtitle="Ringkasan konten & aktivitas website" />
+      <AdminTopbar title="Dashboard" subtitle="Website content & activity overview" />
 
       <div className="p-4 md:p-8">
         {isLoading ? (
@@ -157,8 +157,8 @@ export default function AdminDashboardPage() {
             {/* ─── Visitor Chart ──────────────────────── */}
             <div style={{ ...cardStyle, marginBottom: '32px', padding: '24px' }}>
               <h2 style={sectionTitleStyle}>
-                <TrendingUp size={18} style={{ color: '#C8A97E' }} />
-                Kunjungan 7 Hari Terakhir
+                <TrendingUp size={18} style={{ color: 'var(--admin-primary)' }} />
+                Visitor Traffic (Last 7 Days)
               </h2>
               <div style={{ width: '100%', height: '280px' }}>
                 <ResponsiveContainer width="100%" height="100%">
@@ -211,7 +211,7 @@ export default function AdminDashboardPage() {
                 <div style={{ padding: '20px 24px 12px', borderBottom: '1px solid var(--admin-border)' }}>
                   <h2 style={{ ...sectionTitleStyle, margin: 0 }}>
                     <BarChart3 size={18} style={{ color: '#06B6D4' }} />
-                    Halaman Populer
+                    Popular Pages
                   </h2>
                 </div>
                 {stats?.topPages && stats.topPages.length > 0 ? (
@@ -257,7 +257,7 @@ export default function AdminDashboardPage() {
                   ))
                 ) : (
                   <div style={{ padding: '32px 24px', textAlign: 'center', color: 'var(--admin-text-secondary)', fontSize: '0.875rem', fontFamily: 'var(--font-outfit)' }}>
-                    Belum ada data kunjungan
+                    No traffic data available
                   </div>
                 )}
               </div>
@@ -267,7 +267,7 @@ export default function AdminDashboardPage() {
                 <div style={{ padding: '20px 24px 12px', borderBottom: '1px solid var(--admin-border)' }}>
                   <h2 style={{ ...sectionTitleStyle, margin: 0 }}>
                     <Mail size={18} style={{ color: '#F472B6' }} />
-                    Pesan Terbaru
+                    Recent Messages
                   </h2>
                 </div>
                 {stats?.recentContacts && stats.recentContacts.length > 0 ? (
@@ -287,7 +287,7 @@ export default function AdminDashboardPage() {
                     >
                       <div style={{
                         width: '8px', height: '8px', borderRadius: '50%',
-                        background: contact.status === 'UNREAD' ? '#C8A97E' : 'var(--admin-text-secondary)',
+                        background: contact.status === 'UNREAD' ? 'var(--admin-primary)' : 'var(--admin-text-secondary)',
                         flexShrink: 0, opacity: contact.status === 'UNREAD' ? 1 : 0.3,
                       }} />
                       <div style={{ flex: 1, minWidth: 0 }}>
@@ -297,11 +297,11 @@ export default function AdminDashboardPage() {
                           </span>
                           {contact.status === 'UNREAD' && (
                             <span style={{
-                              fontSize: '0.5625rem', background: 'rgba(200,169,126,0.15)',
-                              color: '#C8A97E', padding: '1px 6px', borderRadius: '100px',
+                              fontSize: '0.5625rem', background: 'rgba(148, 163, 184, 0.15)',
+                              color: 'var(--admin-primary)', padding: '1px 6px', borderRadius: '100px',
                               fontWeight: 600, fontFamily: 'var(--font-outfit)',
                             }}>
-                              BARU
+                              NEW
                             </span>
                           )}
                         </div>
@@ -320,7 +320,7 @@ export default function AdminDashboardPage() {
                   ))
                 ) : (
                   <div style={{ padding: '32px 24px', textAlign: 'center', color: 'var(--admin-text-secondary)', fontSize: '0.875rem', fontFamily: 'var(--font-outfit)' }}>
-                    Belum ada pesan masuk
+                    No incoming messages
                   </div>
                 )}
               </div>
@@ -333,15 +333,15 @@ export default function AdminDashboardPage() {
               <div style={{ ...cardStyle, padding: 0, overflow: 'hidden' }}>
                 <div style={{ padding: '20px 24px 12px', borderBottom: '1px solid var(--admin-border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <h2 style={{ ...sectionTitleStyle, margin: 0 }}>
-                    <Building2 size={18} style={{ color: '#C8A97E' }} />
-                    Project Terbaru
+                    <Building2 size={18} style={{ color: 'var(--admin-primary)' }} />
+                    Recent Projects
                   </h2>
                   <a href="/admin/projects" style={{
-                    fontSize: '0.75rem', color: '#C8A97E', textDecoration: 'none',
+                    fontSize: '0.75rem', color: 'var(--admin-primary)', textDecoration: 'none',
                     display: 'flex', alignItems: 'center', gap: '4px',
                     fontFamily: 'var(--font-outfit)',
                   }}>
-                    Lihat Semua <ArrowUpRight size={14} />
+                    View All <ArrowUpRight size={14} />
                   </a>
                 </div>
                 {stats?.recentProjects && stats.recentProjects.length > 0 ? (
@@ -385,7 +385,7 @@ export default function AdminDashboardPage() {
                   ))
                 ) : (
                   <div style={{ padding: '32px 24px', textAlign: 'center', color: 'var(--admin-text-secondary)', fontSize: '0.875rem', fontFamily: 'var(--font-outfit)' }}>
-                    Belum ada project
+                    No projects found
                   </div>
                 )}
               </div>
@@ -395,14 +395,14 @@ export default function AdminDashboardPage() {
                 <div style={{ padding: '20px 24px 12px', borderBottom: '1px solid var(--admin-border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <h2 style={{ ...sectionTitleStyle, margin: 0 }}>
                     <FileText size={18} style={{ color: '#60A5FA' }} />
-                    News Terbaru
+                    Recent News
                   </h2>
                   <a href="/admin/news" style={{
-                    fontSize: '0.75rem', color: '#C8A97E', textDecoration: 'none',
+                    fontSize: '0.75rem', color: 'var(--admin-primary)', textDecoration: 'none',
                     display: 'flex', alignItems: 'center', gap: '4px',
                     fontFamily: 'var(--font-outfit)',
                   }}>
-                    Lihat Semua <ArrowUpRight size={14} />
+                    View All <ArrowUpRight size={14} />
                   </a>
                 </div>
                 {stats?.recentNews && stats.recentNews.length > 0 ? (
@@ -446,7 +446,7 @@ export default function AdminDashboardPage() {
                   ))
                 ) : (
                   <div style={{ padding: '32px 24px', textAlign: 'center', color: 'var(--admin-text-secondary)', fontSize: '0.875rem', fontFamily: 'var(--font-outfit)' }}>
-                    Belum ada news
+                    No news found
                   </div>
                 )}
               </div>

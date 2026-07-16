@@ -68,7 +68,7 @@ function ParticleShape() {
     <Points ref={ref} positions={positions} sizes={sizes}>
       <PointMaterial
         transparent
-        color="#C8A97E" // Gold accent
+        color="#94A3B8" // Slate gray accent
         size={0.03}
         sizeAttenuation={true}
         depthWrite={false}

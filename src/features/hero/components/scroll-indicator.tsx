@@ -12,13 +12,13 @@ export function ScrollIndicator() {
       aria-label="Scroll ke portofolio"
     >
       <span 
-        className="text-[10px] uppercase tracking-[0.3em] text-[#8A8A8E] group-hover:text-[#C8A97E] transition-colors"
+        className="text-[10px] uppercase tracking-[0.3em] text-[#8A8A8E] group-hover:text-[#94A3B8] transition-colors"
         style={{ fontFamily: 'var(--font-outfit)' }}
       >
         Scroll
       </span>
       <div className="w-[1px] h-12 bg-[#2C2C2E] overflow-hidden">
-        <div className="w-full h-1/2 bg-[#C8A97E] animate-[fade-in-up_1.5s_infinite]" />
+        <div className="w-full h-1/2 bg-[#94A3B8] animate-[fade-in-up_1.5s_infinite]" />
       </div>
     </button>
   );

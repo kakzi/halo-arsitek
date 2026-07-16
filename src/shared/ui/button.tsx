@@ -13,11 +13,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     const variants = {
       primary:
-        'bg-[#C8A97E] text-[#0A0A0A] hover:bg-[#E8C89E] focus-visible:ring-[#C8A97E]',
+        'bg-[#1E293B] text-[#FFFFFF] hover:bg-[#334155] focus-visible:ring-[#1E293B]',
       outline:
-        'border border-[#C8A97E] text-[#C8A97E] bg-transparent hover:bg-[#C8A97E] hover:text-[#0A0A0A] focus-visible:ring-[#C8A97E]',
+        'border border-[#1E293B] text-[#1E293B] bg-transparent hover:bg-[#1E293B] hover:text-[#FFFFFF] focus-visible:ring-[#1E293B]',
       ghost:
-        'text-[#F5F5F5] bg-transparent hover:text-[#C8A97E] focus-visible:ring-[#C8A97E]',
+        'text-[#F5F5F5] bg-transparent hover:text-[#1E293B] focus-visible:ring-[#1E293B]',
     };
 
     const sizes = {

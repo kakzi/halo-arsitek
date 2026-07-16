@@ -2,8 +2,8 @@
 
 import { useState, useEffect, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import { AdminTopbar } from '@/features/admin';
-import { Upload } from 'lucide-react';
+import { AdminTopbar, MarkdownEditor } from '@/features/admin';
+import { Upload, Save, X, Plus, Trash2, ArrowLeft, ArrowRight, Star } from 'lucide-react';
 
 export default function NewProjectPage() {
   const router = useRouter();
@@ -18,8 +18,11 @@ export default function NewProjectPage() {
     area: '',
     description: '',
     coverImage: '',
+    images: [] as string[],
     isPublished: false,
   });
+  const [isUploadingGallery, setIsUploadingGallery] = useState(false);
+  const [newGalleryUrl, setNewGalleryUrl] = useState('');
 
   const generateSlug = (title: string) =>
     title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -53,6 +56,57 @@ export default function NewProjectPage() {
     }
   };
 
+  const handleGalleryUpload = async (files: FileList) => {
+    setIsUploadingGallery(true);
+    try {
+      const uploadedUrls: string[] = [];
+      for (const file of Array.from(files)) {
+        const formData = new FormData();
+        formData.append('file', file);
+        const res = await fetch('/api/admin/upload', { method: 'POST', body: formData });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.data?.url) uploadedUrls.push(data.data.url);
+        }
+      }
+      if (uploadedUrls.length > 0) {
+        setForm((prev) => ({ ...prev, images: [...prev.images, ...uploadedUrls] }));
+      }
+    } finally {
+      setIsUploadingGallery(false);
+    }
+  };
+
+  const addGalleryUrl = () => {
+    if (newGalleryUrl.trim()) {
+      setForm((prev) => ({ ...prev, images: [...prev.images, newGalleryUrl.trim()] }));
+      setNewGalleryUrl('');
+    }
+  };
+
+  const removeGalleryImage = (indexToRemove: number) => {
+    setForm((prev) => ({
+      ...prev,
+      images: prev.images.filter((_, idx) => idx !== indexToRemove),
+    }));
+  };
+
+  const moveGalleryImage = (fromIdx: number, direction: 'left' | 'right') => {
+    setForm((prev) => {
+      const toIdx = direction === 'left' ? fromIdx - 1 : fromIdx + 1;
+      if (toIdx < 0 || toIdx >= prev.images.length) return prev;
+      const newImages = [...prev.images];
+      const temp = newImages[fromIdx];
+      newImages[fromIdx] = newImages[toIdx];
+      newImages[toIdx] = temp;
+      return { ...prev, images: newImages };
+    });
+  };
+
+  const setAsCover = (imgUrl: string) => {
+    setForm((prev) => ({ ...prev, coverImage: imgUrl }));
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError('');
@@ -69,10 +123,10 @@ export default function NewProjectPage() {
         router.push('/admin/projects');
       } else {
         const data = await res.json();
-        setError(data.error || 'Gagal membuat project');
+        setError(data.error || 'Failed to create project');
       }
     } catch {
-      setError('Terjadi kesalahan');
+      setError('An error occurred');
     } finally {
       setIsSubmitting(false);
     }
@@ -104,7 +158,7 @@ export default function NewProjectPage() {
 
   return (
     <>
-      <AdminTopbar title="Tambah Project Baru" subtitle="Buat portofolio proyek arsitektur baru" />
+      <AdminTopbar title="Add New Project" subtitle="Create a new architectural portfolio project" />
 
       <div className="p-4 md:p-8 max-w-4xl">
         {error && (
@@ -134,7 +188,7 @@ export default function NewProjectPage() {
           >
             {/* Title */}
             <div style={{ marginBottom: '24px' }}>
-              <label style={labelStyle}>Judul Project</label>
+              <label style={labelStyle}>Project Title</label>
               <input
                 type="text"
                 value={form.title}
@@ -142,7 +196,7 @@ export default function NewProjectPage() {
                 placeholder="Villa Bali Modern"
                 required
                 style={inputStyle}
-                onFocus={(e) => (e.target.style.borderColor = '#C8A97E')}
+                onFocus={(e) => (e.target.style.borderColor = 'var(--admin-primary)')}
                 onBlur={(e) => (e.target.style.borderColor = 'var(--admin-border)')}
               />
             </div>
@@ -157,7 +211,7 @@ export default function NewProjectPage() {
                 placeholder="villa-bali-modern"
                 required
                 style={inputStyle}
-                onFocus={(e) => (e.target.style.borderColor = '#C8A97E')}
+                onFocus={(e) => (e.target.style.borderColor = 'var(--admin-primary)')}
                 onBlur={(e) => (e.target.style.borderColor = 'var(--admin-border)')}
               />
               <p style={{ fontSize: '0.6875rem', color: '#3C3C3E', marginTop: '4px' }}>
@@ -168,21 +222,21 @@ export default function NewProjectPage() {
             {/* Category + Year */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-6">
               <div>
-                <label style={labelStyle}>Kategori</label>
+                <label style={labelStyle}>Category</label>
                 <select
                   value={form.categoryId}
                   onChange={(e) => setForm((prev) => ({ ...prev, categoryId: e.target.value }))}
                   style={{ ...inputStyle, cursor: 'pointer' }}
                   required
                 >
-                  <option value="" disabled>Pilih Kategori</option>
+                  <option value="" disabled>Select Category</option>
                   {categories.map((c) => (
                     <option key={c.id} value={c.id}>{c.name}</option>
                   ))}
                 </select>
               </div>
               <div>
-                <label style={labelStyle}>Tahun</label>
+                <label style={labelStyle}>Year</label>
                 <input
                   type="number"
                   value={form.year}
@@ -191,7 +245,7 @@ export default function NewProjectPage() {
                   max={2100}
                   required
                   style={inputStyle}
-                  onFocus={(e) => (e.target.style.borderColor = '#C8A97E')}
+                  onFocus={(e) => (e.target.style.borderColor = 'var(--admin-primary)')}
                   onBlur={(e) => (e.target.style.borderColor = 'var(--admin-border)')}
                 />
               </div>
@@ -200,7 +254,7 @@ export default function NewProjectPage() {
             {/* Location + Area */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-6">
               <div>
-                <label style={labelStyle}>Lokasi</label>
+                <label style={labelStyle}>Location</label>
                 <input
                   type="text"
                   value={form.location}
@@ -208,12 +262,12 @@ export default function NewProjectPage() {
                   placeholder="Ubud, Bali"
                   required
                   style={inputStyle}
-                  onFocus={(e) => (e.target.style.borderColor = '#C8A97E')}
+                  onFocus={(e) => (e.target.style.borderColor = 'var(--admin-primary)')}
                   onBlur={(e) => (e.target.style.borderColor = 'var(--admin-border)')}
                 />
               </div>
               <div>
-                <label style={labelStyle}>Luas Area</label>
+                <label style={labelStyle}>Area</label>
                 <input
                   type="text"
                   value={form.area}
@@ -221,26 +275,21 @@ export default function NewProjectPage() {
                   placeholder="450 m²"
                   required
                   style={inputStyle}
-                  onFocus={(e) => (e.target.style.borderColor = '#C8A97E')}
+                  onFocus={(e) => (e.target.style.borderColor = 'var(--admin-primary)')}
                   onBlur={(e) => (e.target.style.borderColor = 'var(--admin-border)')}
                 />
               </div>
             </div>
 
             {/* Description */}
-            <div style={{ marginBottom: '24px' }}>
-              <label style={labelStyle}>Deskripsi</label>
-              <textarea
-                value={form.description}
-                onChange={(e) => setForm((prev) => ({ ...prev, description: e.target.value }))}
-                placeholder="Deskripsi detail tentang proyek arsitektur ini..."
-                required
-                rows={5}
-                style={{ ...inputStyle, resize: 'vertical' }}
-                onFocus={(e) => (e.target.style.borderColor = '#C8A97E')}
-                onBlur={(e) => (e.target.style.borderColor = 'var(--admin-border)')}
-              />
-            </div>
+            <MarkdownEditor
+              value={form.description}
+              onChange={(val) => setForm((prev) => ({ ...prev, description: val }))}
+              label="Description"
+              required
+              rows={6}
+              placeholder="Detailed description of this architectural project (supports Markdown formatting)..."
+            />
 
             {/* Cover Image */}
             <div style={{ marginBottom: '24px' }}>
@@ -250,10 +299,10 @@ export default function NewProjectPage() {
                   type="text"
                   value={form.coverImage}
                   onChange={(e) => setForm((prev) => ({ ...prev, coverImage: e.target.value }))}
-                  placeholder="URL gambar atau upload file"
+                  placeholder="Image URL or upload file"
                   required
                   style={{ ...inputStyle, flex: 1 }}
-                  onFocus={(e) => (e.target.style.borderColor = '#C8A97E')}
+                  onFocus={(e) => (e.target.style.borderColor = 'var(--admin-primary)')}
                   onBlur={(e) => (e.target.style.borderColor = 'var(--admin-border)')}
                 />
                 <label
@@ -262,7 +311,7 @@ export default function NewProjectPage() {
                     background: 'var(--admin-hover-bg)',
                     border: '1px solid var(--admin-border)',
                     borderRadius: '8px',
-                    color: '#C8A97E',
+                    color: 'var(--admin-primary)',
                     fontSize: '0.8125rem',
                     cursor: 'pointer',
                     whiteSpace: 'nowrap',
@@ -296,6 +345,248 @@ export default function NewProjectPage() {
               )}
             </div>
 
+            {/* Project Gallery Images (Multiple) */}
+            <div style={{ marginBottom: '28px' }}>
+              <label style={labelStyle}>Project Gallery Images (Multiple)</label>
+              <div style={{ display: 'flex', gap: '12px', marginBottom: '16px', flexWrap: 'wrap' }}>
+                <label
+                  style={{
+                    padding: '12px 16px',
+                    background: 'var(--admin-hover-bg)',
+                    border: '1px solid var(--admin-border)',
+                    borderRadius: '8px',
+                    color: 'var(--admin-primary)',
+                    fontSize: '0.8125rem',
+                    fontWeight: 600,
+                    cursor: isUploadingGallery ? 'wait' : 'pointer',
+                    whiteSpace: 'nowrap',
+                    transition: 'all 0.2s',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                  }}
+                >
+                  <Upload size={16} />
+                  {isUploadingGallery ? 'Uploading Files...' : 'Upload Multiple Files'}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    hidden
+                    disabled={isUploadingGallery}
+                    onChange={(e) => {
+                      if (e.target.files && e.target.files.length > 0) {
+                        handleGalleryUpload(e.target.files);
+                      }
+                    }}
+                  />
+                </label>
+
+                <div style={{ display: 'flex', gap: '8px', flex: 1, minWidth: '240px' }}>
+                  <input
+                    type="text"
+                    value={newGalleryUrl}
+                    onChange={(e) => setNewGalleryUrl(e.target.value)}
+                    placeholder="Or paste image URL here..."
+                    style={{ ...inputStyle, flex: 1 }}
+                    onFocus={(e) => (e.target.style.borderColor = 'var(--admin-primary)')}
+                    onBlur={(e) => (e.target.style.borderColor = 'var(--admin-border)')}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        addGalleryUrl();
+                      }
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={addGalleryUrl}
+                    style={{
+                      padding: '12px 16px',
+                      background: 'transparent',
+                      border: '1px solid var(--admin-border)',
+                      borderRadius: '8px',
+                      color: 'var(--admin-text-primary)',
+                      fontSize: '0.8125rem',
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                    }}
+                  >
+                    <Plus size={16} /> Add URL
+                  </button>
+                </div>
+              </div>
+
+              {form.images.length > 0 ? (
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '16px' }}>
+                  {form.images.map((imgUrl, idx) => {
+                    const isCover = form.coverImage === imgUrl;
+                    return (
+                      <div
+                        key={idx}
+                        style={{
+                          position: 'relative',
+                          borderRadius: '10px',
+                          border: isCover ? '2px solid var(--admin-primary)' : '1px solid var(--admin-border)',
+                          overflow: 'hidden',
+                          background: 'var(--admin-bg-page)',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          boxShadow: isCover ? '0 0 0 2px rgba(99,102,241,0.2)' : 'none',
+                        }}
+                      >
+                        <div style={{ position: 'relative', aspectRatio: '1', width: '100%' }}>
+                          <img
+                            src={imgUrl}
+                            alt={`Gallery ${idx + 1}`}
+                            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                            onError={(e) => (e.currentTarget.style.display = 'none')}
+                          />
+                          <div
+                            style={{
+                              position: 'absolute',
+                              top: '6px',
+                              left: '6px',
+                              background: 'rgba(0,0,0,0.65)',
+                              color: '#FFFFFF',
+                              fontSize: '0.6875rem',
+                              padding: '2px 6px',
+                              borderRadius: '4px',
+                              fontFamily: 'var(--font-outfit), sans-serif',
+                              fontWeight: 600,
+                            }}
+                          >
+                            #{idx + 1}
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => removeGalleryImage(idx)}
+                            title="Remove image"
+                            style={{
+                              position: 'absolute',
+                              top: '6px',
+                              right: '6px',
+                              width: '26px',
+                              height: '26px',
+                              borderRadius: '50%',
+                              background: 'rgba(239, 68, 68, 0.9)',
+                              color: '#FFFFFF',
+                              border: 'none',
+                              cursor: 'pointer',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                            }}
+                          >
+                            <Trash2 size={13} />
+                          </button>
+                        </div>
+
+                        {/* Controls bar */}
+                        <div
+                          style={{
+                            padding: '8px',
+                            background: 'var(--admin-bg-card)',
+                            borderTop: '1px solid var(--admin-border)',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '6px',
+                          }}
+                        >
+                          <div style={{ display: 'flex', justifyContent: 'space-between', gap: '4px' }}>
+                            <button
+                              type="button"
+                              onClick={() => moveGalleryImage(idx, 'left')}
+                              disabled={idx === 0}
+                              title="Move left"
+                              style={{
+                                flex: 1,
+                                padding: '4px 8px',
+                                background: idx === 0 ? 'transparent' : 'var(--admin-hover-bg)',
+                                border: '1px solid var(--admin-border)',
+                                borderRadius: '6px',
+                                color: idx === 0 ? 'var(--admin-text-secondary)' : 'var(--admin-text-primary)',
+                                opacity: idx === 0 ? 0.4 : 1,
+                                cursor: idx === 0 ? 'not-allowed' : 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontSize: '0.75rem',
+                              }}
+                            >
+                              <ArrowLeft size={13} />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => moveGalleryImage(idx, 'right')}
+                              disabled={idx === form.images.length - 1}
+                              title="Move right"
+                              style={{
+                                flex: 1,
+                                padding: '4px 8px',
+                                background: idx === form.images.length - 1 ? 'transparent' : 'var(--admin-hover-bg)',
+                                border: '1px solid var(--admin-border)',
+                                borderRadius: '6px',
+                                color: idx === form.images.length - 1 ? 'var(--admin-text-secondary)' : 'var(--admin-text-primary)',
+                                opacity: idx === form.images.length - 1 ? 0.4 : 1,
+                                cursor: idx === form.images.length - 1 ? 'not-allowed' : 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontSize: '0.75rem',
+                              }}
+                            >
+                              <ArrowRight size={13} />
+                            </button>
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={() => setAsCover(imgUrl)}
+                            style={{
+                              width: '100%',
+                              padding: '5px 8px',
+                              background: isCover ? 'var(--admin-primary)' : 'transparent',
+                              border: isCover ? 'none' : '1px solid var(--admin-border)',
+                              borderRadius: '6px',
+                              color: isCover ? '#FFFFFF' : 'var(--admin-text-secondary)',
+                              fontSize: '0.75rem',
+                              fontWeight: isCover ? 600 : 400,
+                              cursor: 'pointer',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              gap: '4px',
+                            }}
+                          >
+                            <Star size={12} fill={isCover ? '#FFFFFF' : 'none'} />
+                            {isCover ? 'Cover Image' : 'Set Cover'}
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div
+                  style={{
+                    padding: '24px',
+                    border: '1px dashed var(--admin-border)',
+                    borderRadius: '8px',
+                    textAlign: 'center',
+                    color: 'var(--admin-text-secondary)',
+                    fontSize: '0.8125rem',
+                    fontFamily: 'var(--font-outfit), sans-serif',
+                  }}
+                >
+                  No gallery images added yet. Upload multiple files or paste image URLs.
+                </div>
+              )}
+            </div>
+
             {/* Published Toggle */}
             <div style={{ marginBottom: '32px', display: 'flex', alignItems: 'center', gap: '12px' }}>
               <button
@@ -306,7 +597,7 @@ export default function NewProjectPage() {
                   height: '24px',
                   borderRadius: '12px',
                   border: 'none',
-                  background: form.isPublished ? '#C8A97E' : '#E5E7EB',
+                  background: form.isPublished ? 'var(--admin-primary)' : '#E5E7EB',
                   cursor: 'pointer',
                   position: 'relative',
                   transition: 'background 0.2s',
@@ -337,7 +628,7 @@ export default function NewProjectPage() {
                 disabled={isSubmitting}
                 style={{
                   padding: '12px 24px',
-                  background: 'linear-gradient(135deg, #C8A97E, #A67C52)',
+                  background: 'var(--admin-primary)',
                   border: 'none',
                   borderRadius: '8px',
                   color: '#FFFFFF',
@@ -346,9 +637,12 @@ export default function NewProjectPage() {
                   cursor: isSubmitting ? 'not-allowed' : 'pointer',
                   opacity: isSubmitting ? 0.6 : 1,
                   transition: 'all 0.2s',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
                 }}
               >
-                {isSubmitting ? 'Menyimpan...' : 'Simpan Project'}
+                <Save size={16} /> {isSubmitting ? 'Saving...' : 'Save Project'}
               </button>
               <button
                 type="button"
@@ -362,9 +656,12 @@ export default function NewProjectPage() {
                   fontSize: '0.875rem',
                   cursor: 'pointer',
                   transition: 'all 0.2s',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
                 }}
               >
-                Batal
+                <X size={16} /> Cancel
               </button>
             </div>
           </div>

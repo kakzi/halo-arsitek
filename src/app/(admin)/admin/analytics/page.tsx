@@ -8,7 +8,7 @@ import {
 } from 'recharts';
 import {
   Eye, TrendingUp, Users, Monitor, Smartphone, Tablet,
-  Globe, ArrowUpRight,
+  Globe, ArrowUpRight, Calendar,
 } from 'lucide-react';
 
 /* ─── Types ───────────────────────────────────────────────────────────────── */
@@ -286,9 +286,12 @@ export default function AnalyticsPage() {
                   fontFamily: 'var(--font-outfit), sans-serif',
                   transition: 'all 0.2s',
                   borderColor: days === d ? 'rgba(200,169,126,0.3)' : 'var(--admin-border)',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
                 }}
               >
-                {d} Hari
+                <Calendar size={14} /> {d} Hari
               </button>
             ))}
           </div>

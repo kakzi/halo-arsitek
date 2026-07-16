@@ -38,7 +38,7 @@ export function TestimonialsSlider() {
           <div className="relative max-w-4xl mx-auto px-4 md:px-12 text-center">
             
             {/* Quote Icon */}
-            <div className="text-6xl md:text-8xl text-[#C8A97E] opacity-20 font-playfair leading-none mb-8">
+            <div className="text-6xl md:text-8xl text-[#94A3B8] opacity-20 font-playfair leading-none mb-8">
               "
             </div>
 
@@ -60,7 +60,7 @@ export function TestimonialsSlider() {
                     {testimonial.quote}
                   </blockquote>
                   <div>
-                    <div className="text-[#C8A97E] font-medium tracking-wide">
+                    <div className="text-[#94A3B8] font-medium tracking-wide">
                       {testimonial.name}
                     </div>
                     <div className="text-[#8A8A8E] text-sm mt-1">
@@ -75,7 +75,7 @@ export function TestimonialsSlider() {
             <div className="flex items-center justify-center gap-6 mt-12">
               <button 
                 onClick={handlePrev}
-                className="w-12 h-12 rounded-full border border-[#2C2C2E] flex items-center justify-center text-white hover:border-[#C8A97E] hover:text-[#C8A97E] transition-colors focus:outline-none"
+                className="w-12 h-12 rounded-full border border-[#2C2C2E] flex items-center justify-center text-white hover:border-[#94A3B8] hover:text-[#94A3B8] transition-colors focus:outline-none"
                 aria-label="Previous testimonial"
               >
                 ←
@@ -91,7 +91,7 @@ export function TestimonialsSlider() {
                     }}
                     className={cn(
                       'w-2 h-2 rounded-full transition-all duration-300',
-                      index === currentIndex ? 'w-8 bg-[#C8A97E]' : 'bg-[#2C2C2E] hover:bg-[#8A8A8E]'
+                      index === currentIndex ? 'w-8 bg-[#94A3B8]' : 'bg-[#2C2C2E] hover:bg-[#8A8A8E]'
                     )}
                     aria-label={`Go to testimonial ${index + 1}`}
                   />
@@ -100,7 +100,7 @@ export function TestimonialsSlider() {
 
               <button 
                 onClick={handleNext}
-                className="w-12 h-12 rounded-full border border-[#2C2C2E] flex items-center justify-center text-white hover:border-[#C8A97E] hover:text-[#C8A97E] transition-colors focus:outline-none"
+                className="w-12 h-12 rounded-full border border-[#2C2C2E] flex items-center justify-center text-white hover:border-[#94A3B8] hover:text-[#94A3B8] transition-colors focus:outline-none"
                 aria-label="Next testimonial"
               >
                 →
