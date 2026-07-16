@@ -14,6 +14,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const project = await prisma.project.findUnique({ where: { slug: resolvedParams.slug } });
   if (!project) return { title: 'Not Found' };
   
+  // Helper to format OG image (especially for Unsplash URLs to match 1200x630)
+  let ogImageUrl = project.coverImage;
+  if (ogImageUrl.includes('unsplash.com')) {
+    const baseUrl = ogImageUrl.split('?')[0];
+    ogImageUrl = `${baseUrl}?w=1200&h=630&fit=crop&q=80`;
+  }
+
   return {
     title: `${project.title} — HaloArsitek`,
     description: project.description,
@@ -22,7 +29,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       description: project.description,
       images: [
         {
-          url: project.coverImage,
+          url: ogImageUrl,
           width: 1200,
           height: 630,
           alt: project.title,
@@ -33,7 +40,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       card: 'summary_large_image',
       title: project.title,
       description: project.description,
-      images: [project.coverImage],
+      images: [ogImageUrl],
     }
   };
 }
