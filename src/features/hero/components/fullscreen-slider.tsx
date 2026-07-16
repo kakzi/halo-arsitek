@@ -3,14 +3,14 @@
 import { useState, useCallback, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { projects } from '@/shared/lib/constants';
 import { navItems } from '@/shared/config/navigation.config';
 import { Magnetic } from '@/shared/animations/magnetic';
 
 const AUTOSLIDE_INTERVAL = 6000; // 6 seconds
 
-const slideVariants = {
+const slideVariants: Variants = {
   enter: (dir: number) => ({ 
     opacity: 0,
     scale: 1.05,
