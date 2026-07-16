@@ -14,9 +14,29 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const newsItem = await prisma.news.findUnique({ where: { slug: resolvedParams.slug } });
   if (!newsItem) return { title: 'Not Found' };
   
+  const shortDescription = newsItem.content.length > 150 ? newsItem.content.substring(0, 150) + '...' : newsItem.content;
+
   return {
     title: `${newsItem.title} — HaloArsitek`,
-    description: newsItem.content.length > 150 ? newsItem.content.substring(0, 150) + '...' : newsItem.content,
+    description: shortDescription,
+    openGraph: {
+      title: newsItem.title,
+      description: shortDescription,
+      images: [
+        {
+          url: newsItem.coverImage,
+          width: 1200,
+          height: 630,
+          alt: newsItem.title,
+        }
+      ]
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: newsItem.title,
+      description: shortDescription,
+      images: [newsItem.coverImage],
+    }
   };
 }
 

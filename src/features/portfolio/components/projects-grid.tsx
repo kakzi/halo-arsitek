@@ -31,9 +31,9 @@ export function ProjectsGrid({ projects, categories }: ProjectsGridProps) {
   return (
     <div className="fixed inset-0 bg-white overflow-y-auto pb-32">
       {/* Sticky solid white block to protect the Navbar logo from scrolling images */}
-      <div className="sticky top-0 z-40 w-full h-[70px] md:h-[90px] bg-white" />
+      <div className="sticky top-0 z-40 w-full h-[76px] md:h-[84px] bg-white" />
 
-      <div className="container-narrow px-6 md:px-8 pb-12 pt-2">
+      <div className="container-narrow px-6 md:px-8 pb-12 pt-4">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -44,7 +44,7 @@ export function ProjectsGrid({ projects, categories }: ProjectsGridProps) {
           Projects
         </motion.h1>
 
-        <div className="sticky top-[70px] md:top-[90px] z-50 py-2 -mx-6 px-6 md:-mx-8 md:px-8 mb-6 bg-white">
+        <div className="sticky top-[76px] md:top-[84px] z-50 pt-4 pb-2 -mx-6 px-6 md:-mx-8 md:px-8 mb-6 bg-white">
 
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -56,9 +56,8 @@ export function ProjectsGrid({ projects, categories }: ProjectsGridProps) {
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`whitespace-nowrap transition-colors duration-300 relative pb-2 ${
-                  activeCategory === cat ? "text-[#1A1A1A]" : "text-[#BFB8B7] hover:text-[#5D5C5C]"
-                }`}
+                className={`whitespace-nowrap transition-colors duration-300 relative pb-2 ${activeCategory === cat ? "text-[#1A1A1A]" : "text-[#BFB8B7] hover:text-[#5D5C5C]"
+                  }`}
                 style={{ fontSize: '0.75rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}
               >
                 {cat}
@@ -92,12 +91,12 @@ export function ProjectsGrid({ projects, categories }: ProjectsGridProps) {
                       alt={project.title}
                       className="w-full h-full object-cover group-hover:scale-[1.05] transition-transform duration-[800ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
                     />
-                    
+
                     {/* Watermark */}
                     <div className="absolute bottom-3 right-3 z-10 opacity-30 pointer-events-none drop-shadow-sm">
-                      <img 
-                        src="/logo/logo-halo-arsitek-white.png" 
-                        alt="Watermark" 
+                      <img
+                        src="/logo/logo-halo-arsitek-white.png"
+                        alt="Watermark"
                         className="w-5 h-5 md:w-6 md:h-6 object-contain"
                       />
                     </div>

@@ -198,7 +198,7 @@ export function FullscreenSlider({ projects }: FullscreenSliderProps) {
         </div>
 
         {/* ── Arrows (Inside Box Bottom-right) ── */}
-        <div className="absolute bottom-8 md:bottom-12 right-6 md:right-10 z-30 flex items-center gap-2 md:gap-4">
+        <div className="absolute bottom-8 md:bottom-12 right-6 md:right-10 z-30 hidden md:flex items-center gap-4">
           <Magnetic>
             <button
               onClick={handlePrev}

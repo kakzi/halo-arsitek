@@ -2,8 +2,10 @@ export const siteConfig = {
   name: 'HaloArsitek',
   description:
     'Studio arsitektur profesional dengan pengalaman 15+ tahun. Spesialis desain rumah modern, interior premium, dan landscape.',
-  url: process.env.NEXT_PUBLIC_SITE_URL || 'https://haloarsitek.com',
-  ogImage: '/images/og-default.jpg',
+  url: process.env.NEXT_PUBLIC_SITE_URL 
+    ? process.env.NEXT_PUBLIC_SITE_URL 
+    : (process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : 'https://haloarsitek.com'),
+  ogImage: '/logo/logo-halo-arsitek-black.png',
   contact: {
     email: 'hello@haloarsitek.com',
     phone: '+62 812 3456 7890',
