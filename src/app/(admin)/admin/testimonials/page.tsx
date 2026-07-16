@@ -2,7 +2,7 @@
 
 import { useEffect, useState, type FormEvent } from 'react';
 import { AdminTopbar } from '@/features/admin';
-import { MessageSquareQuote } from 'lucide-react';
+import { MessageSquareQuote, Plus, Save, X, Edit2, Trash2 } from 'lucide-react';
 
 interface Testimonial {
   id: string;
@@ -49,7 +49,7 @@ export default function TestimonialsPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Hapus testimonial ini?')) return;
+    if (!confirm('Delete this testimonial?')) return;
     await fetch(`/api/admin/testimonials/${id}`, { method: 'DELETE' });
     fetchData();
   };
@@ -59,41 +59,41 @@ export default function TestimonialsPage() {
 
   return (
     <>
-      <AdminTopbar title="Testimonials" subtitle="Kelola testimoni klien" />
+      <AdminTopbar title="Testimonials" subtitle="Manage client testimonials" />
       <div className="p-4 md:p-8">
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '24px' }}>
           <p style={{ fontSize: '0.875rem', color: 'var(--admin-text-secondary)', margin: 0 }}>{testimonials.length} testimonial(s)</p>
-          <button onClick={() => { resetForm(); setShowForm(true); }} style={{ padding: '10px 20px', background: 'linear-gradient(135deg, #C8A97E, #A67C52)', borderRadius: '8px', color: '#FFFFFF', fontSize: '0.8125rem', fontWeight: 600, border: 'none', cursor: 'pointer' }}>+ Tambah</button>
+          <button onClick={() => { resetForm(); setShowForm(true); }} style={{ padding: '10px 20px', background: 'var(--admin-primary)', borderRadius: '8px', color: '#FFFFFF', fontSize: '0.8125rem', fontWeight: 600, border: 'none', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '6px' }}><Plus size={16} /> Add New</button>
         </div>
 
         {showForm && (
           <div style={{ background: 'var(--admin-bg-card)', boxShadow: 'var(--admin-shadow)', border: 'none', borderRadius: '12px', padding: '24px', marginBottom: '24px' }}>
-            <h3 style={{ color: 'var(--admin-text-primary)', fontSize: '1rem', margin: '0 0 20px' }}>{editingId ? 'Edit' : 'Tambah'} Testimonial</h3>
+            <h3 style={{ color: 'var(--admin-text-primary)', fontSize: '1rem', fontWeight: 600, fontFamily: 'var(--font-outfit), sans-serif', margin: '0 0 20px' }}>{editingId ? 'Edit' : 'Add'} Testimonial</h3>
             <form onSubmit={handleSubmit}>
-              <div style={{ marginBottom: '16px' }}><label style={labelStyle}>Quote</label><textarea value={form.quote} onChange={(e) => setForm((p) => ({ ...p, quote: e.target.value }))} required rows={3} style={{ ...inputStyle, resize: 'vertical' }} onFocus={(e) => (e.target.style.borderColor = '#C8A97E')} onBlur={(e) => (e.target.style.borderColor = 'var(--admin-border)')} /></div>
+              <div style={{ marginBottom: '16px' }}><label style={labelStyle}>Quote</label><textarea value={form.quote} onChange={(e) => setForm((p) => ({ ...p, quote: e.target.value }))} required rows={3} style={{ ...inputStyle, resize: 'vertical' }} onFocus={(e) => (e.target.style.borderColor = 'var(--admin-primary)')} onBlur={(e) => (e.target.style.borderColor = 'var(--admin-border)')} /></div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                <div><label style={labelStyle}>Nama</label><input type="text" value={form.name} onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))} required style={inputStyle} onFocus={(e) => (e.target.style.borderColor = '#C8A97E')} onBlur={(e) => (e.target.style.borderColor = 'var(--admin-border)')} /></div>
-                <div><label style={labelStyle}>Role</label><input type="text" value={form.role} onChange={(e) => setForm((p) => ({ ...p, role: e.target.value }))} required style={inputStyle} onFocus={(e) => (e.target.style.borderColor = '#C8A97E')} onBlur={(e) => (e.target.style.borderColor = 'var(--admin-border)')} /></div>
+                <div><label style={labelStyle}>Name</label><input type="text" value={form.name} onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))} required style={inputStyle} onFocus={(e) => (e.target.style.borderColor = 'var(--admin-primary)')} onBlur={(e) => (e.target.style.borderColor = 'var(--admin-border)')} /></div>
+                <div><label style={labelStyle}>Role</label><input type="text" value={form.role} onChange={(e) => setForm((p) => ({ ...p, role: e.target.value }))} required style={inputStyle} onFocus={(e) => (e.target.style.borderColor = 'var(--admin-primary)')} onBlur={(e) => (e.target.style.borderColor = 'var(--admin-border)')} /></div>
               </div>
-              <div style={{ marginBottom: '16px' }}><label style={labelStyle}>Nama Proyek</label><input type="text" value={form.project} onChange={(e) => setForm((p) => ({ ...p, project: e.target.value }))} required style={inputStyle} onFocus={(e) => (e.target.style.borderColor = '#C8A97E')} onBlur={(e) => (e.target.style.borderColor = 'var(--admin-border)')} /></div>
+              <div style={{ marginBottom: '16px' }}><label style={labelStyle}>Project Name</label><input type="text" value={form.project} onChange={(e) => setForm((p) => ({ ...p, project: e.target.value }))} required style={inputStyle} onFocus={(e) => (e.target.style.borderColor = 'var(--admin-primary)')} onBlur={(e) => (e.target.style.borderColor = 'var(--admin-border)')} /></div>
               <div style={{ display: 'flex', gap: '12px' }}>
-                <button type="submit" style={{ padding: '10px 20px', background: 'linear-gradient(135deg, #C8A97E, #A67C52)', border: 'none', borderRadius: '8px', color: '#FFFFFF', fontSize: '0.8125rem', fontWeight: 600, cursor: 'pointer' }}>{editingId ? 'Update' : 'Simpan'}</button>
-                <button type="button" onClick={resetForm} style={{ padding: '10px 20px', background: 'transparent', border: '1px solid var(--admin-border)', borderRadius: '8px', color: 'var(--admin-text-secondary)', fontSize: '0.8125rem', cursor: 'pointer' }}>Batal</button>
+                <button type="submit" style={{ padding: '10px 20px', background: 'var(--admin-primary)', border: 'none', borderRadius: '8px', color: '#FFFFFF', fontSize: '0.8125rem', fontWeight: 600, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '6px' }}><Save size={15} /> {editingId ? 'Update' : 'Save'}</button>
+                <button type="button" onClick={resetForm} style={{ padding: '10px 20px', background: 'transparent', border: '1px solid var(--admin-border)', borderRadius: '8px', color: 'var(--admin-text-secondary)', fontSize: '0.8125rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '6px' }}><X size={15} /> Cancel</button>
               </div>
             </form>
           </div>
         )}
 
         <div style={{ background: 'var(--admin-bg-card)', boxShadow: 'var(--admin-shadow)', border: 'none', borderRadius: '12px', overflow: 'hidden' }}>
-          {isLoading ? <div style={{ padding: '48px', textAlign: 'center', color: 'var(--admin-text-secondary)' }}>Loading...</div> : testimonials.length === 0 ? <div style={{ padding: '48px', textAlign: 'center', color: 'var(--admin-text-secondary)' }}><div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}><MessageSquareQuote size={48} /></div><p>Belum ada testimonial</p></div> : (
+          {isLoading ? <div style={{ padding: '48px', textAlign: 'center', color: 'var(--admin-text-secondary)' }}>Loading...</div> : testimonials.length === 0 ? <div style={{ padding: '48px', textAlign: 'center', color: 'var(--admin-text-secondary)' }}><div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}><MessageSquareQuote size={48} /></div><p>No testimonials found</p></div> : (
             testimonials.map((t, idx) => (
               <div key={t.id} style={{ padding: '20px 24px', borderBottom: idx < testimonials.length - 1 ? '1px solid #F9FAFB' : 'none', transition: 'background 0.2s' }} onMouseEnter={(e) => (e.currentTarget.style.background = '#F9FAFB')} onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}>
                 <p style={{ color: 'var(--admin-text-primary)', fontSize: '0.9375rem', fontStyle: 'italic', margin: '0 0 8px', fontFamily: 'var(--font-outfit), sans-serif' }}>&ldquo;{t.quote}&rdquo;</p>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <div><span style={{ color: '#C8A97E', fontSize: '0.8125rem', fontWeight: 500 }}>{t.name}</span><span style={{ color: 'var(--admin-text-secondary)', fontSize: '0.75rem' }}> — {t.role} • {t.project}</span></div>
+                  <div><span style={{ color: 'var(--admin-primary)', fontSize: '0.8125rem', fontWeight: 500 }}>{t.name}</span><span style={{ color: 'var(--admin-text-secondary)', fontSize: '0.75rem' }}> — {t.role} • {t.project}</span></div>
                   <div style={{ display: 'flex', gap: '8px' }}>
-                    <button onClick={() => handleEdit(t)} style={{ padding: '4px 12px', borderRadius: '6px', background: 'var(--admin-hover-bg)', color: '#C8A97E', fontSize: '0.75rem', border: '1px solid var(--admin-border)', cursor: 'pointer' }}>Edit</button>
-                    <button onClick={() => handleDelete(t.id)} style={{ padding: '4px 12px', borderRadius: '6px', background: 'rgba(239,68,68,0.1)', color: '#EF4444', fontSize: '0.75rem', border: '1px solid rgba(239,68,68,0.2)', cursor: 'pointer' }}>Hapus</button>
+                    <button onClick={() => handleEdit(t)} style={{ padding: '4px 12px', borderRadius: '6px', background: 'var(--admin-hover-bg)', color: 'var(--admin-primary)', fontSize: '0.75rem', border: '1px solid var(--admin-border)', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '4px' }}><Edit2 size={13} /> Edit</button>
+                    <button onClick={() => handleDelete(t.id)} style={{ padding: '4px 12px', borderRadius: '6px', background: 'rgba(239,68,68,0.1)', color: '#EF4444', fontSize: '0.75rem', border: '1px solid rgba(239,68,68,0.2)', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '4px' }}><Trash2 size={13} /> Delete</button>
                   </div>
                 </div>
               </div>

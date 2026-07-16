@@ -42,7 +42,7 @@ export function ContactContent() {
             <p className="label mb-2">Email</p>
             <Magnetic>
               <a href={`mailto:${siteConfig.contact.email}`}
-                className="text-[#3A3A3A] hover:text-[#A67C52] transition-colors text-sm inline-block">
+                className="text-[#3A3A3A] hover:text-[#1E293B] transition-colors text-sm inline-block">
                 {siteConfig.contact.email}
               </a>
             </Magnetic>
@@ -52,7 +52,7 @@ export function ContactContent() {
             <p className="label mb-2">Phone</p>
             <Magnetic>
               <a href={`tel:${siteConfig.contact.phone}`}
-                className="text-[#3A3A3A] hover:text-[#A67C52] transition-colors text-sm inline-block">
+                className="text-[#3A3A3A] hover:text-[#1E293B] transition-colors text-sm inline-block">
                 {siteConfig.contact.phone}
               </a>
             </Magnetic>
@@ -72,7 +72,7 @@ export function ContactContent() {
               {Object.entries(siteConfig.social).map(([name, url]) => (
                 <Magnetic key={name}>
                   <a href={url} target="_blank" rel="noopener noreferrer"
-                    className="text-[#BFB8B7] hover:text-[#A67C52] transition-colors capitalize inline-block"
+                    className="text-[#BFB8B7] hover:text-[#1E293B] transition-colors capitalize inline-block"
                     style={{ fontSize: '0.78rem' }}>
                     {name}
                   </a>

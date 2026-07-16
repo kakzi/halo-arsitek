@@ -21,14 +21,14 @@ export function PortfolioCard({ project }: PortfolioCardProps) {
       
       {/* Content */}
       <div className="absolute bottom-0 left-0 w-full p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-out">
-        <span className="inline-block text-[#C8A97E] text-xs font-medium uppercase tracking-[0.2em] font-outfit mb-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+        <span className="inline-block text-[#94A3B8] text-xs font-medium uppercase tracking-[0.2em] font-outfit mb-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
           {project.category} — {project.year}
         </span>
         <h3 className="text-2xl md:text-3xl text-white font-playfair font-bold mb-2">
           {project.title}
         </h3>
         <p className="text-[#8A8A8E] text-sm flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
-          <span className="block w-4 h-[1px] bg-[#C8A97E]" />
+          <span className="block w-4 h-[1px] bg-[#94A3B8]" />
           {project.location}
         </p>
       </div>

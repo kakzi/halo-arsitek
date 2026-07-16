@@ -32,7 +32,7 @@ export function Footer() {
                 <li key={item.label}>
                   <Link 
                     href={item.href}
-                    className="text-[#8A8A8E] hover:text-[#C8A97E] transition-colors text-sm"
+                    className="text-[#8A8A8E] hover:text-[#F5F5F5] transition-colors text-sm"
                   >
                     {item.label}
                   </Link>
@@ -46,12 +46,12 @@ export function Footer() {
             <h4 className="text-sm uppercase tracking-[0.2em] text-white mb-6 font-outfit">Kontak</h4>
             <ul className="flex flex-col gap-4 text-sm text-[#8A8A8E]">
               <li>
-                <a href={`mailto:${siteConfig.contact.email}`} className="hover:text-[#C8A97E] transition-colors">
+                <a href={`mailto:${siteConfig.contact.email}`} className="hover:text-[#F5F5F5] transition-colors">
                   {siteConfig.contact.email}
                 </a>
               </li>
               <li>
-                <a href={`https://wa.me/${siteConfig.contact.whatsapp}`} className="hover:text-[#C8A97E] transition-colors">
+                <a href={`https://wa.me/${siteConfig.contact.whatsapp}`} className="hover:text-[#F5F5F5] transition-colors">
                   {siteConfig.contact.phone}
                 </a>
               </li>
@@ -66,17 +66,17 @@ export function Footer() {
             <h4 className="text-sm uppercase tracking-[0.2em] text-white mb-6 font-outfit">Sosial</h4>
             <ul className="flex flex-col gap-4">
               <li>
-                <a href={siteConfig.social.instagram} className="text-[#8A8A8E] hover:text-[#C8A97E] transition-colors text-sm">
+                <a href={siteConfig.social.instagram} className="text-[#8A8A8E] hover:text-[#F5F5F5] transition-colors text-sm">
                   Instagram
                 </a>
               </li>
               <li>
-                <a href={siteConfig.social.linkedin} className="text-[#8A8A8E] hover:text-[#C8A97E] transition-colors text-sm">
+                <a href={siteConfig.social.linkedin} className="text-[#8A8A8E] hover:text-[#F5F5F5] transition-colors text-sm">
                   LinkedIn
                 </a>
               </li>
               <li>
-                <a href={siteConfig.social.pinterest} className="text-[#8A8A8E] hover:text-[#C8A97E] transition-colors text-sm">
+                <a href={siteConfig.social.pinterest} className="text-[#8A8A8E] hover:text-[#F5F5F5] transition-colors text-sm">
                   Pinterest
                 </a>
               </li>

@@ -3,7 +3,7 @@
 import { useAuth } from '../context/auth-context';
 import { useAdminUI } from '../context/admin-ui-context';
 import { useTheme } from 'next-themes';
-import { Moon, Sun, Menu as MenuIcon } from 'lucide-react';
+import { Moon, Sun, Menu as MenuIcon, ExternalLink } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 export function AdminTopbar({ title, subtitle }: { title: string; subtitle?: string }) {
@@ -113,10 +113,10 @@ export function AdminTopbar({ title, subtitle }: { title: string; subtitle?: str
             e.currentTarget.style.borderColor = 'var(--admin-border)';
             e.currentTarget.style.color = 'var(--admin-text-secondary)';
           }}
-          title="Lihat Website"
+          title="View Website"
         >
-          <span>↗</span>
-          {!isMobile && <span>Lihat Website</span>}
+          <ExternalLink size={14} />
+          {!isMobile && <span>View Website</span>}
         </a>
 
         {/* Theme Toggle */}

@@ -57,11 +57,11 @@ export function MenuOverlay({ onClose }: MenuOverlayProps) {
                 <Link
                   href={item.href}
                   onClick={onClose}
-                  className="text-4xl md:text-6xl text-white hover:text-[#A67C52] transition-colors duration-300 flex items-center gap-6 group"
+                  className="text-4xl md:text-6xl text-white hover:text-[#94A3B8] transition-colors duration-300 flex items-center gap-6 group"
                   style={{ fontFamily: 'var(--font-playfair)', letterSpacing: '-0.03em' }}
                 >
                   <span 
-                    className="text-[0.75rem] text-[#808080] group-hover:text-[#A67C52] transition-colors tracking-widest mt-2"
+                    className="text-[0.75rem] text-[#808080] group-hover:text-[#94A3B8] transition-colors tracking-widest mt-2"
                     style={{ fontFamily: 'var(--font-outfit)' }}
                   >
                     0{i + 1}
@@ -84,7 +84,7 @@ export function MenuOverlay({ onClose }: MenuOverlayProps) {
           <p className="text-[#808080] mb-2" style={{ fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase', fontFamily: 'var(--font-outfit)' }}>
             Get in touch
           </p>
-          <a href={`mailto:${siteConfig.contact.email}`} className="text-white hover:text-[#A67C52] transition-colors block text-base mb-2">
+          <a href={`mailto:${siteConfig.contact.email}`} className="text-white hover:text-[#94A3B8] transition-colors block text-base mb-2">
             {siteConfig.contact.email}
           </a>
           <a href={`tel:${siteConfig.contact.phone}`} className="text-[#808080] hover:text-white transition-colors block text-sm">
@@ -94,7 +94,7 @@ export function MenuOverlay({ onClose }: MenuOverlayProps) {
           <div className="flex gap-4 mt-8">
             {Object.entries(siteConfig.social).map(([platform, url]) => (
               <a key={platform} href={url} target="_blank" rel="noopener noreferrer"
-                className="text-[#808080] hover:text-[#A67C52] transition-colors text-xs uppercase tracking-widest"
+                className="text-[#808080] hover:text-[#94A3B8] transition-colors text-xs uppercase tracking-widest"
               >
                 {platform}
               </a>

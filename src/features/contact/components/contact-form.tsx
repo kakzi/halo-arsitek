@@ -41,7 +41,7 @@ export function ContactForm() {
     }
   };
 
-  const inputClass = "w-full bg-[#141414] border border-[#2C2C2E] rounded-md px-4 py-3 text-white focus:outline-none focus:border-[#C8A97E] transition-colors placeholder:text-[#8A8A8E]";
+  const inputClass = "w-full bg-[#141414] border border-[#2C2C2E] rounded-md px-4 py-3 text-white focus:outline-none focus:border-[#94A3B8] transition-colors placeholder:text-[#8A8A8E]";
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">

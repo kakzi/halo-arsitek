@@ -4,7 +4,7 @@ import { useState, type FormEvent } from 'react';
 import { useAuth } from '@/features/admin';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
-import { Eye, EyeOff, AlertTriangle } from 'lucide-react';
+import { Eye, EyeOff, AlertTriangle, LogIn } from 'lucide-react';
 
 function LoginForm() {
   const [email, setEmail] = useState('');
@@ -27,7 +27,7 @@ function LoginForm() {
     if (result.success) {
       router.push(redirect);
     } else {
-      setError(result.error || 'Login gagal');
+      setError(result.error || 'Login failed');
       setIsSubmitting(false);
     }
   };
@@ -49,8 +49,8 @@ function LoginForm() {
           position: 'fixed',
           inset: 0,
           background: `
-            radial-gradient(circle at 20% 20%, rgba(200, 169, 126, 0.03) 0%, transparent 50%),
-            radial-gradient(circle at 80% 80%, rgba(200, 169, 126, 0.02) 0%, transparent 50%)
+            radial-gradient(circle at 20% 20%, rgba(26, 35, 50, 0.05) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(26, 35, 50, 0.03) 0%, transparent 50%)
           `,
           pointerEvents: 'none',
         }}
@@ -69,7 +69,7 @@ function LoginForm() {
             style={{
               fontFamily: 'var(--font-outfit), sans-serif',
               fontSize: '2rem',
-              color: '#C8A97E',
+              color: 'var(--admin-primary)',
               fontWeight: 600,
               letterSpacing: '-0.02em',
               margin: '0 0 8px',
@@ -110,7 +110,7 @@ function LoginForm() {
               margin: '0 0 8px',
             }}
           >
-            Masuk ke Dashboard
+            Sign In to Dashboard
           </h2>
           <p
             style={{
@@ -119,7 +119,7 @@ function LoginForm() {
               margin: '0 0 32px',
             }}
           >
-            Kelola konten website HaloArsitek
+            Manage HaloArsitek website content
           </p>
 
           {/* Error Message */}
@@ -180,7 +180,7 @@ function LoginForm() {
                   transition: 'border-color 0.2s',
                   boxSizing: 'border-box',
                 }}
-                onFocus={(e) => (e.target.style.borderColor = '#C8A97E')}
+                onFocus={(e) => (e.target.style.borderColor = 'var(--admin-primary)')}
                 onBlur={(e) => (e.target.style.borderColor = 'var(--admin-border)')}
               />
             </div>
@@ -223,7 +223,7 @@ function LoginForm() {
                     transition: 'border-color 0.2s',
                     boxSizing: 'border-box',
                   }}
-                  onFocus={(e) => (e.target.style.borderColor = '#C8A97E')}
+                  onFocus={(e) => (e.target.style.borderColor = 'var(--admin-primary)')}
                   onBlur={(e) => (e.target.style.borderColor = 'var(--admin-border)')}
                 />
                 <button
@@ -256,7 +256,7 @@ function LoginForm() {
                 padding: '14px 24px',
                 background: isSubmitting
                   ? '#3C3C3E'
-                  : 'linear-gradient(135deg, #C8A97E, #A67C52)',
+                  : 'var(--admin-primary)',
                 border: 'none',
                 borderRadius: '8px',
                 color: isSubmitting ? '#8A8A8E' : '#FFFFFF',
@@ -266,9 +266,13 @@ function LoginForm() {
                 cursor: isSubmitting ? 'not-allowed' : 'pointer',
                 transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
                 letterSpacing: '0.02em',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
               }}
             >
-              {isSubmitting ? 'Memproses...' : 'Masuk'}
+              <LogIn size={16} /> {isSubmitting ? 'Processing...' : 'Sign In'}
             </button>
           </form>
         </div>

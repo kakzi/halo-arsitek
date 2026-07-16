@@ -26,7 +26,7 @@ export function ContactSection() {
               <div className="flex flex-col gap-6">
                 <div>
                   <div className="text-sm uppercase tracking-[0.1em] text-[#8A8A8E] font-outfit mb-2">Email</div>
-                  <a href={`mailto:${siteConfig.contact.email}`} className="text-xl text-white hover:text-[#C8A97E] transition-colors">
+                  <a href={`mailto:${siteConfig.contact.email}`} className="text-xl text-white hover:text-[#F5F5F5] transition-colors">
                     {siteConfig.contact.email}
                   </a>
                 </div>
@@ -35,7 +35,7 @@ export function ContactSection() {
                 
                 <div>
                   <div className="text-sm uppercase tracking-[0.1em] text-[#8A8A8E] font-outfit mb-2">Telepon / WhatsApp</div>
-                  <a href={`https://wa.me/${siteConfig.contact.whatsapp}`} className="text-xl text-white hover:text-[#C8A97E] transition-colors">
+                  <a href={`https://wa.me/${siteConfig.contact.whatsapp}`} className="text-xl text-white hover:text-[#F5F5F5] transition-colors">
                     {siteConfig.contact.phone}
                   </a>
                 </div>

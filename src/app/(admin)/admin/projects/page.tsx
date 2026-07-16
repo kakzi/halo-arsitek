@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { AdminTopbar } from '@/features/admin';
-import { Building2 } from 'lucide-react';
+import { Building2, Plus, Edit2, Trash2, CheckCircle2, CircleSlash } from 'lucide-react';
 
 interface Project {
   id: string;
@@ -37,13 +37,13 @@ export default function ProjectsPage() {
   useEffect(() => { fetchProjects(); }, []);
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Yakin ingin menghapus project ini?')) return;
+    if (!confirm('Are you sure you want to delete this project?')) return;
     setDeletingId(id);
     try {
       await fetch(`/api/admin/projects/${id}`, { method: 'DELETE' });
       setProjects((prev) => prev.filter((p) => p.id !== id));
     } catch {
-      alert('Gagal menghapus');
+      alert('Failed to delete');
     } finally {
       setDeletingId(null);
     }
@@ -60,7 +60,7 @@ export default function ProjectsPage() {
         prev.map((p) => (p.id === id ? { ...p, isPublished: !isPublished } : p))
       );
     } catch {
-      alert('Gagal mengubah status');
+      alert('Failed to update status');
     }
   };
 
@@ -72,7 +72,7 @@ export default function ProjectsPage() {
 
   return (
     <>
-      <AdminTopbar title="Projects" subtitle="Kelola portofolio proyek arsitektur" />
+      <AdminTopbar title="Projects" subtitle="Manage architectural portfolio projects" />
 
       <div className="p-4 md:p-8">
         {/* Header Actions */}
@@ -84,7 +84,7 @@ export default function ProjectsPage() {
             href="/admin/projects/new"
             style={{
               padding: '10px 20px',
-              background: 'linear-gradient(135deg, #C8A97E, #A67C52)',
+              background: 'var(--admin-primary)',
               borderRadius: '8px',
               color: '#FFFFFF',
               fontSize: '0.8125rem',
@@ -97,7 +97,7 @@ export default function ProjectsPage() {
               gap: '6px',
             }}
           >
-            + Tambah Project
+            <Plus size={16} /> Add Project
           </Link>
         </div>
 
@@ -115,7 +115,7 @@ export default function ProjectsPage() {
           ) : projects.length === 0 ? (
             <div style={{ padding: '48px', textAlign: 'center', color: 'var(--admin-text-secondary)' }}>
               <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}><Building2 size={48} /></div>
-              <p>Belum ada project. Buat project pertama Anda!</p>
+              <p>No projects found. Create your first project!</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
@@ -193,9 +193,12 @@ export default function ProjectsPage() {
                           border: `1px solid ${project.isPublished ? 'rgba(52, 211, 153, 0.3)' : 'rgba(138, 138, 142, 0.3)'}`,
                           cursor: 'pointer',
                           transition: 'all 0.2s',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '4px',
                         }}
                       >
-                        {project.isPublished ? 'Published' : 'Draft'}
+                        {project.isPublished ? <><CheckCircle2 size={12} /> Published</> : <><CircleSlash size={12} /> Draft</>}
                       </button>
                     </td>
                     <td style={{ padding: '14px 20px' }}>
@@ -206,14 +209,17 @@ export default function ProjectsPage() {
                             padding: '6px 12px',
                             borderRadius: '6px',
                             background: 'var(--admin-hover-bg)',
-                            color: '#C8A97E',
+                            color: 'var(--admin-primary)',
                             fontSize: '0.75rem',
                             textDecoration: 'none',
                             border: '1px solid var(--admin-border)',
                             transition: 'all 0.2s',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '4px',
                           }}
                         >
-                          Edit
+                          <Edit2 size={13} /> Edit
                         </Link>
                         <button
                           onClick={() => handleDelete(project.id)}
@@ -228,9 +234,12 @@ export default function ProjectsPage() {
                             cursor: deletingId === project.id ? 'not-allowed' : 'pointer',
                             opacity: deletingId === project.id ? 0.5 : 1,
                             transition: 'all 0.2s',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '4px',
                           }}
                         >
-                          {deletingId === project.id ? '...' : 'Hapus'}
+                          <Trash2 size={13} /> {deletingId === project.id ? '...' : 'Delete'}
                         </button>
                       </div>
                     </td>

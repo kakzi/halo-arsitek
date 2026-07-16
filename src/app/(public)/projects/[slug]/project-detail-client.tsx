@@ -135,7 +135,7 @@ export function ProjectDetailClient({ project }: { project: Project }) {
           <p className="text-[#8A8584] uppercase tracking-widest text-xs mb-8">Ready to start your project?</p>
           <Link 
             href="/contact"
-            className="text-3xl md:text-5xl font-medium text-[#1A1A1A] hover:text-[#A67C52] transition-colors mb-12"
+            className="text-3xl md:text-5xl font-medium text-[#1A1A1A] hover:text-[#1E293B] transition-colors mb-12"
             style={{ fontFamily: 'var(--font-playfair)' }}
           >
             Let's Talk

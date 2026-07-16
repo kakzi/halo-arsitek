@@ -13,7 +13,7 @@ export function AboutSection() {
           
           {/* Image Side */}
           <ScrollReveal direction="right" className="relative aspect-[3/4] w-full max-w-md mx-auto lg:mx-0">
-            <div className="absolute inset-0 bg-[#C8A97E]/10 translate-x-4 translate-y-4" />
+            <div className="absolute inset-0 bg-[#94A3B8]/10 translate-x-4 translate-y-4" />
             <div className="relative w-full h-full overflow-hidden">
               <Image
                 src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=1067&fit=crop"
@@ -25,8 +25,8 @@ export function AboutSection() {
             </div>
             
             {/* Overlay Stat Badge */}
-            <div className="absolute -bottom-6 -left-6 glass-effect p-6 flex flex-col gap-1 border-t border-[#C8A97E]/30">
-              <div className="text-4xl text-[#C8A97E] font-bold">
+            <div className="absolute -bottom-6 -left-6 glass-effect p-6 flex flex-col gap-1 border-t border-[#94A3B8]/30">
+              <div className="text-4xl text-[#94A3B8] font-bold">
                 <StatsCounter end={siteConfig.stats.years} suffix="+" />
               </div>
               <div className="text-sm tracking-widest uppercase text-[#F5F5F5] font-outfit">

@@ -143,7 +143,7 @@ export function AdminSidebar() {
               <span
                 style={{
                   fontSize: '0.6875rem',
-                  color: '#C8A97E',
+                  color: 'var(--admin-text-secondary)',
                   letterSpacing: '0.02em',
                   textTransform: 'none',
                   fontFamily: 'var(--font-outfit), sans-serif',
@@ -227,7 +227,7 @@ export function AdminSidebar() {
                     padding: collapsed ? '12px 16px' : '10px 16px',
                     borderRadius: '4px',
                     textDecoration: 'none',
-                    color: active ? '#3C50E0' : sidebarTextMuted,
+                    color: active ? 'var(--admin-primary)' : sidebarTextMuted,
                     background: active ? sidebarActive : 'transparent',
                     fontSize: '0.875rem',
                     fontFamily: 'var(--font-outfit), sans-serif',
@@ -310,7 +310,7 @@ export function AdminSidebar() {
           }}
         >
           <LogOut size={18} />
-          {!collapsed && <span>Keluar Sistem</span>}
+          {!collapsed && <span>Sign Out</span>}
         </button>
       </div>
     </aside>
