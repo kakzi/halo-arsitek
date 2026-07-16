@@ -76,12 +76,10 @@ export function NewsContent() {
               
               {/* Thumbnail */}
               <div className="relative aspect-[3/2] md:aspect-[4/3] overflow-hidden bg-[#F7F7F7] rounded-sm">
-                <Image
+                <img
                   src={item.image}
                   alt={item.title}
-                  fill
-                  className="object-cover group-hover:scale-[1.04] transition-transform duration-[800ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
-                  sizes="200px"
+                  className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-[800ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
                 />
               </div>
 

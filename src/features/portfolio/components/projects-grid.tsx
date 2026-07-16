@@ -84,12 +84,10 @@ export function ProjectsGrid() {
               <motion.div key={project.id} variants={itemVariants}>
                 <Link href={`/projects/${project.slug}`} className="group block">
                   <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#F7F7F7] mb-3 rounded-sm">
-                    <Image
+                    <img
                       src={project.coverImage}
                       alt={project.title}
-                      fill
-                      className="object-cover group-hover:scale-[1.05] transition-transform duration-[800ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
-                      sizes="(max-width: 768px) 50vw, 25vw"
+                      className="w-full h-full object-cover group-hover:scale-[1.05] transition-transform duration-[800ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
                     />
                     
                     {/* Watermark */}
