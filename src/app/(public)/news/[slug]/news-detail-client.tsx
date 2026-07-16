@@ -11,54 +11,47 @@ export function NewsDetailClient({ newsItem }: { newsItem: any }) {
     : '';
 
   return (
-    <div className="fixed inset-0 bg-white overflow-y-auto pb-32">
-      
-      {/* ── HERO SECTION ── */}
-      <div className="relative w-full h-[60vh] md:h-[70vh] bg-[#F7F7F7]">
+    <div className="fixed inset-0 bg-white overflow-y-auto pb-32 pt-24 md:pt-32">
+      <div className="max-w-4xl mx-auto px-6 md:px-8">
+        
+        {/* ── TITLE SECTION ── */}
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="flex flex-col items-center text-center mb-10"
+        >
+          <div className="flex items-center gap-3 mb-6">
+            <span className="text-[#8A8584] text-[0.65rem] md:text-xs tracking-[0.25em] uppercase font-medium">
+              {newsItem.category?.name || 'News'}
+            </span>
+            <span className="w-1 h-1 rounded-full bg-[#D4D4D4]" />
+            <span className="text-[#8A8584] text-[0.65rem] md:text-xs">
+              {formattedDate}
+            </span>
+          </div>
+          
+          <h1 
+            className="text-2xl md:text-3xl lg:text-4xl text-[#1A1A1A]" 
+            style={{ fontFamily: 'var(--font-playfair)', letterSpacing: '-0.02em', lineHeight: 1.2 }}
+          >
+            {newsItem.title}
+          </h1>
+        </motion.div>
+
+        {/* ── CONTAINED HERO IMAGE ── */}
         <motion.div 
-          initial={{ scale: 1.05 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute inset-0"
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          className="relative w-full aspect-[4/3] md:aspect-[16/9] lg:aspect-[2/1] bg-[#F7F7F7] mb-16 overflow-hidden rounded-sm"
         >
           <img
             src={newsItem.coverImage}
             alt={newsItem.title}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover hover:scale-[1.02] transition-transform duration-[1.5s] ease-[cubic-bezier(0.22,1,0.36,1)]"
           />
         </motion.div>
-        {/* Subtle overlay for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent z-10" />
-        
-        <div className="absolute bottom-10 left-6 md:left-12 right-6 md:right-12 z-20 max-w-4xl">
-          <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="flex items-center gap-4 mb-4"
-          >
-            <span className="text-white/90 text-xs md:text-sm tracking-[0.2em] uppercase font-medium">
-              {newsItem.category?.name || 'News'}
-            </span>
-            <span className="w-10 h-[1px] bg-white/50" />
-            <span className="text-white/80 text-xs md:text-sm">
-              {formattedDate}
-            </span>
-          </motion.div>
-
-          <motion.h1 
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="text-3xl md:text-5xl lg:text-6xl text-white font-medium drop-shadow-xl"
-            style={{ letterSpacing: '-0.01em', lineHeight: 1.2, fontFamily: 'var(--font-playfair)' }}
-          >
-            {newsItem.title}
-          </motion.h1>
-        </div>
-      </div>
-
-      <div className="max-w-4xl mx-auto px-6 md:px-12 pt-16 md:pt-24">
         
         {/* ── CONTENT ── */}
         <motion.div 

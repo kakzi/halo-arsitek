@@ -157,8 +157,8 @@ export function FullscreenSlider({ projects }: FullscreenSliderProps) {
               >
                 <Link
                   href={`/projects/${p.slug}`}
-                  className="text-[#C19A6B] hover:text-[#A87B51] transition-colors font-medium text-4xl md:text-6xl lg:text-7xl pointer-events-auto drop-shadow-xl inline-block"
-                  style={{ letterSpacing: '-0.02em', lineHeight: 1.1 }}
+                  className="transition-colors hover:opacity-80 text-4xl md:text-6xl lg:text-7xl pointer-events-auto drop-shadow-xl inline-block"
+                  style={{ color: '#A67C52', letterSpacing: '-0.02em', lineHeight: 1.1, fontFamily: 'var(--font-playfair)' }}
                 >
                   {p.title}
                 </Link>

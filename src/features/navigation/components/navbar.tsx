@@ -20,7 +20,7 @@ export function Navbar() {
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.1 }}
-        className="fixed top-0 left-0 right-0 z-50 mix-blend-difference text-white"
+        className="fixed top-0 left-0 right-0 z-[70] mix-blend-difference text-white"
       >
         <div className="flex justify-between items-center px-6 md:px-8 py-6">
           {/* Logo without Magnetic so it stays stable */}
