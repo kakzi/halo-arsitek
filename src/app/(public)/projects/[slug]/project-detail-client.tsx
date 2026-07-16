@@ -1,9 +1,35 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-// import { Project } from '@/shared/lib/constants';
+import { useState, useEffect } from 'react';
+
+const swipeConfidenceThreshold = 10000;
+const swipePower = (offset: number, velocity: number) => {
+  return Math.abs(offset) * velocity;
+};
+
+const variants = {
+  enter: (direction: number) => {
+    return {
+      x: direction > 0 ? 1000 : -1000,
+      opacity: 0
+    };
+  },
+  center: {
+    zIndex: 1,
+    x: 0,
+    opacity: 1
+  },
+  exit: (direction: number) => {
+    return {
+      zIndex: 0,
+      x: direction < 0 ? 1000 : -1000,
+      opacity: 0
+    };
+  }
+};
 
 export function ProjectDetailClient({ project }: { project: any }) {
   let imagesArray: string[] = [];
@@ -15,6 +41,34 @@ export function ProjectDetailClient({ project }: { project: any }) {
       if (!Array.isArray(imagesArray)) imagesArray = [];
     } catch (e) {}
   }
+
+  const allImages = [project.coverImage, ...imagesArray].filter(Boolean);
+  
+  const [[page, direction], setPage] = useState([0, 0]);
+
+  // We only have length of allImages, so we wrap the index
+  const activeIndex = Math.abs(page % allImages.length);
+
+  const paginate = (newDirection: number) => {
+    setPage([page + newDirection, newDirection]);
+  };
+
+  const handleDotClick = (newIndex: number) => {
+    const newDirection = newIndex > activeIndex ? 1 : -1;
+    // Calculate the difference and add to current page to keep it continuous
+    const diff = newIndex - activeIndex;
+    setPage([page + diff, newDirection]);
+  };
+
+  // Auto-slide effect
+  useEffect(() => {
+    if (allImages.length <= 1) return;
+    const interval = setInterval(() => {
+      paginate(1);
+    }, 4000); // 4 seconds per slide
+    
+    return () => clearInterval(interval);
+  }, [allImages.length, page]);
 
   return (
     <div className="fixed inset-0 bg-white overflow-y-auto pb-32 pt-24 md:pt-32">
@@ -38,18 +92,79 @@ export function ProjectDetailClient({ project }: { project: any }) {
           </h1>
         </motion.div>
 
-        {/* ── CONTAINED HERO IMAGE ── */}
+        {/* ── IMAGE GALLERY PREVIEW ── */}
         <motion.div 
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="relative w-full aspect-[4/3] md:aspect-[16/9] lg:aspect-[2/1] bg-[#F7F7F7] mb-20 md:mb-28 overflow-hidden rounded-sm"
+          className="mb-20 md:mb-28 w-full"
         >
-          <img
-            src={project.coverImage}
-            alt={project.title}
-            className="w-full h-full object-cover hover:scale-[1.02] transition-transform duration-[1.5s] ease-[cubic-bezier(0.22,1,0.36,1)]"
-          />
+          {/* Main Large Image */}
+          <div className="relative w-full aspect-[4/3] md:aspect-[16/9] lg:aspect-[2/1] bg-[#F7F7F7] overflow-hidden rounded-sm mb-4 cursor-grab active:cursor-grabbing">
+            <AnimatePresence initial={false} custom={direction}>
+              <motion.img
+                key={page}
+                src={allImages[activeIndex]}
+                custom={direction}
+                variants={variants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{
+                  x: { type: "spring", stiffness: 300, damping: 30 },
+                  opacity: { duration: 0.2 }
+                }}
+                drag="x"
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={1}
+                onDragEnd={(e, { offset, velocity }) => {
+                  const swipe = swipePower(offset.x, velocity.x);
+
+                  if (swipe < -swipeConfidenceThreshold) {
+                    paginate(1);
+                  } else if (swipe > swipeConfidenceThreshold) {
+                    paginate(-1);
+                  }
+                }}
+                alt={`${project.title} - main preview`}
+                className="absolute w-full h-full object-cover"
+              />
+            </AnimatePresence>
+          </div>
+
+          {/* Mobile Dots Indicator */}
+          {allImages.length > 0 && (
+            <div className="flex md:hidden items-center justify-center gap-2 mt-6">
+              {allImages.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => handleDotClick(idx)}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    activeIndex === idx ? 'w-6 bg-[#A67C52]' : 'w-1.5 bg-[#E5E5E5] hover:bg-[#D4D4D4]'
+                  }`}
+                  aria-label={`Go to slide ${idx + 1}`}
+                />
+              ))}
+            </div>
+          )}
+
+          {/* Desktop Thumbnails Row */}
+          {allImages.length > 0 && (
+            <div className="hidden md:flex overflow-x-auto gap-4 py-2 px-1 hide-scrollbar">
+              {allImages.map((img, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => handleDotClick(idx)}
+                  className={`relative shrink-0 w-20 h-14 md:w-32 md:h-24 bg-[#F7F7F7] rounded-sm overflow-hidden transition-all duration-300 ${
+                    activeIndex === idx ? 'ring-2 ring-[#A67C52] ring-offset-2' : 'opacity-60 hover:opacity-100'
+                  }`}
+                  aria-label={`View image ${idx + 1}`}
+                >
+                  <img src={img} alt={`Thumbnail ${idx + 1}`} className="w-full h-full object-cover" />
+                </button>
+              ))}
+            </div>
+          )}
         </motion.div>
         
         {/* ── METADATA & DESCRIPTION ── */}
@@ -93,30 +208,6 @@ export function ProjectDetailClient({ project }: { project: any }) {
           </motion.div>
 
         </div>
-
-        {/* ── GALLERY GRID ── */}
-        {imagesArray.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-32">
-            {imagesArray.map((img, index) => (
-              <motion.div
-                key={index}
-                initial={{ y: 30, opacity: 0 }}
-                whileInView={{ y: 0, opacity: 1 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.8, delay: (index % 2) * 0.15, ease: [0.22, 1, 0.36, 1] }}
-                className={`relative bg-[#F7F7F7] rounded-sm overflow-hidden ${
-                  index % 3 === 0 ? 'md:col-span-2 aspect-[16/9]' : 'aspect-[4/5]'
-                }`}
-              >
-                <img
-                  src={img}
-                  alt={`${project.title} - image ${index + 1}`}
-                  className="w-full h-full object-cover hover:scale-[1.03] transition-transform duration-[1.5s] ease-[cubic-bezier(0.22,1,0.36,1)]"
-                />
-              </motion.div>
-            ))}
-          </div>
-        )}
 
         {/* ── CALL TO ACTION ── */}
         <motion.div 
