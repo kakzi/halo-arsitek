@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, Variants, AnimatePresence } from 'framer-motion';
-import { projects } from '@/shared/lib/constants';
+// import { projects } from '@/shared/lib/constants';
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -16,14 +16,17 @@ const itemVariants: Variants = {
   show: { opacity: 1, y: 0, scale: 1, transition: { type: 'spring', stiffness: 100, damping: 20 } }
 };
 
-const categories = ['All', 'Residensial', 'Komersial', 'Interior'];
+interface ProjectsGridProps {
+  projects: any[];
+  categories: string[];
+}
 
-export function ProjectsGrid() {
+export function ProjectsGrid({ projects, categories }: ProjectsGridProps) {
   const [activeCategory, setActiveCategory] = useState('All');
 
   const filteredProjects = activeCategory === 'All'
     ? projects
-    : projects.filter(p => p.category.toLowerCase() === activeCategory.toLowerCase());
+    : projects.filter(p => p.category.name.toLowerCase() === activeCategory.toLowerCase());
 
   return (
     <div className="fixed inset-0 bg-white overflow-y-auto pb-32">
@@ -104,7 +107,7 @@ export function ProjectsGrid() {
                     {project.title}
                   </p>
                   <p className="text-[#C8C2C1]" style={{ fontSize: '0.65rem', textTransform: 'capitalize' }}>
-                    {project.category} — {project.year}
+                    {project.category.name} — {project.year}
                   </p>
                 </Link>
               </motion.div>

@@ -4,7 +4,7 @@ import { useState, useCallback, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
-import { projects } from '@/shared/lib/constants';
+// import { projects } from '@/shared/lib/constants';
 import { navItems } from '@/shared/config/navigation.config';
 import { Magnetic } from '@/shared/animations/magnetic';
 
@@ -35,7 +35,11 @@ const slideVariants: Variants = {
   }),
 };
 
-export function FullscreenSlider() {
+interface FullscreenSliderProps {
+  projects: any[]; // Using any[] temporarily, can use Prisma's Project type if preferred
+}
+
+export function FullscreenSlider({ projects }: FullscreenSliderProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [isClient, setIsClient] = useState(false);

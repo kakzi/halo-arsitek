@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, Variants } from 'framer-motion';
-import { siteConfig } from '@/shared/config/site.config';
+// import { siteConfig } from '@/shared/config/site.config';
 import { Magnetic } from '@/shared/animations/magnetic';
 
 const containerVariants: Variants = {
@@ -14,7 +14,15 @@ const itemVariants: Variants = {
   show: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 100, damping: 20 } }
 };
 
-export function ContactContent() {
+interface ContactSettings {
+  email: string;
+  phone: string;
+  whatsapp: string;
+  address: string;
+  social: Record<string, string>;
+}
+
+export function ContactContent({ settings }: { settings: ContactSettings }) {
   return (
     <div className="fixed inset-0 bg-white flex items-center justify-center">
       <motion.div 
@@ -41,9 +49,9 @@ export function ContactContent() {
           <motion.div variants={itemVariants}>
             <p className="label mb-2">Email</p>
             <Magnetic>
-              <a href={`mailto:${siteConfig.contact.email}`}
+              <a href={`mailto:${settings.email}`}
                 className="text-[#3A3A3A] hover:text-[#A67C52] transition-colors text-sm inline-block">
-                {siteConfig.contact.email}
+                {settings.email}
               </a>
             </Magnetic>
           </motion.div>
@@ -51,9 +59,9 @@ export function ContactContent() {
           <motion.div variants={itemVariants}>
             <p className="label mb-2">Phone</p>
             <Magnetic>
-              <a href={`tel:${siteConfig.contact.phone}`}
+              <a href={`tel:${settings.phone}`}
                 className="text-[#3A3A3A] hover:text-[#A67C52] transition-colors text-sm inline-block">
-                {siteConfig.contact.phone}
+                {settings.phone}
               </a>
             </Magnetic>
           </motion.div>
@@ -61,7 +69,7 @@ export function ContactContent() {
           <motion.div variants={itemVariants}>
             <p className="label mb-2">Studio</p>
             <p className="text-[#3A3A3A] text-sm leading-relaxed">
-              {siteConfig.contact.address}
+              {settings.address}
             </p>
           </motion.div>
 
@@ -69,7 +77,7 @@ export function ContactContent() {
             <div className="w-8 h-px bg-[#D4D4D4] mb-6" />
             <p className="label mb-3">Follow</p>
             <div className="flex gap-5">
-              {Object.entries(siteConfig.social).map(([name, url]) => (
+              {Object.entries(settings.social).map(([name, url]) => (
                 <Magnetic key={name}>
                   <a href={url} target="_blank" rel="noopener noreferrer"
                     className="text-[#BFB8B7] hover:text-[#A67C52] transition-colors capitalize inline-block"

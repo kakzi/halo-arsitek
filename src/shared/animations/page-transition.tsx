@@ -15,7 +15,7 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
         duration: 0.6,
         ease: [0.22, 1, 0.36, 1], // Custom Framer-like cubic-bezier spring feel
       }}
-      className="w-full h-full"
+      className="w-full min-h-screen flex flex-col"
     >
       {children}
     </motion.div>

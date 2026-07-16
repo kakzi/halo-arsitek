@@ -9,10 +9,17 @@ export const metadata = createPageMetadata({
   path: '/',
 });
 
-export default function HomePage() {
+import { prisma } from '@/shared/lib/prisma';
+
+export default async function HomePage() {
+  const projects = await prisma.project.findMany({
+    where: { isPublished: true },
+    orderBy: { sortOrder: 'asc' },
+  });
+
   return (
     <main className="h-screen w-full overflow-hidden bg-white">
-      <FullscreenSlider />
+      <FullscreenSlider projects={projects} />
     </main>
   );
 }

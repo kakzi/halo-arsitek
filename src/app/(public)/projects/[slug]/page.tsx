@@ -1,8 +1,9 @@
 import { notFound } from 'next/navigation';
-import { projects } from '@/shared/lib/constants';
+import { prisma } from '@/shared/lib/prisma';
 import { ProjectDetailClient } from './project-detail-client';
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const projects = await prisma.project.findMany({ select: { slug: true } });
   return projects.map((project) => ({
     slug: project.slug,
   }));
@@ -10,7 +11,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;
-  const project = projects.find((p) => p.slug === resolvedParams.slug);
+  const project = await prisma.project.findUnique({ where: { slug: resolvedParams.slug } });
   if (!project) return { title: 'Not Found' };
   
   return {
@@ -21,7 +22,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ProjectDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;
-  const project = projects.find((p) => p.slug === resolvedParams.slug);
+  const project = await prisma.project.findUnique({
+    where: { slug: resolvedParams.slug },
+    include: { category: true }
+  });
 
   if (!project) {
     notFound();

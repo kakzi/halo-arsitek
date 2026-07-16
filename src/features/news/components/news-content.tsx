@@ -1,42 +1,18 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { motion, Variants } from 'framer-motion';
 
-const newsItems = [
-  {
-    id: '1',
-    title: 'HaloArsitek Meraih Penghargaan Indonesia Design Award 2024',
-    excerpt: 'Proyek Villa Bali Modern kami terpilih sebagai pemenang kategori Best Residential pada ajang Indonesia Design Award 2024.',
-    date: '15 Nov 2024',
-    image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop',
-    category: 'Award',
-  },
-  {
-    id: '2',
-    title: 'Kolaborasi dengan Material Lokal: Filosofi Desain Kami',
-    excerpt: 'Artikel tentang bagaimana kami mengintegrasikan material tradisional Indonesia ke dalam desain arsitektur kontemporer.',
-    date: '28 Sep 2024',
-    image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop',
-    category: 'Publication',
-  },
-  {
-    id: '3',
-    title: 'Resort & Spa Lombok Resmi Beroperasi',
-    excerpt: 'Proyek resort boutique 12 villa di Senggigi, Lombok resmi dibuka untuk umum setelah 18 bulan konstruksi.',
-    date: '10 Jul 2024',
-    image: 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600&h=400&fit=crop',
-    category: 'Completion',
-  },
-  {
-    id: '4',
-    title: 'Wawancara Eksklusif: Arsitektur Berkelanjutan di Indonesia',
-    excerpt: 'Principal Architect kami berbagi pandangan tentang masa depan arsitektur hijau di Indonesia bersama majalah ArchDaily.',
-    date: '02 May 2024',
-    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=400&fit=crop',
-    category: 'Press',
-  },
-];
+interface NewsItem {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  image: string;
+  category: string;
+}
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -48,7 +24,7 @@ const itemVariants: Variants = {
   show: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 100, damping: 20 } }
 };
 
-export function NewsContent() {
+export function NewsContent({ newsItems }: { newsItems: NewsItem[] }) {
   return (
     <div className="fixed inset-0 bg-white overflow-y-auto pb-32">
       {/* Sticky solid white block to protect the Navbar logo from scrolling text */}
@@ -68,11 +44,11 @@ export function NewsContent() {
 
         <div className="space-y-0">
           {newsItems.map((item) => (
-            <motion.article 
-              key={item.id}
-              variants={itemVariants}
-              className="group grid grid-cols-1 md:grid-cols-[200px_1fr] gap-5 md:gap-8 py-8 border-b border-[#F0F0F0] first:pt-0 cursor-pointer"
-            >
+            <Link key={item.id} href={`/news/${item.slug}`} className="block">
+              <motion.article 
+                variants={itemVariants}
+                className="group grid grid-cols-1 md:grid-cols-[200px_1fr] gap-5 md:gap-8 py-8 border-b border-[#F0F0F0] first:pt-0 cursor-pointer"
+              >
               
               {/* Thumbnail */}
               <div className="relative aspect-[3/2] md:aspect-[4/3] overflow-hidden bg-[#F7F7F7] rounded-sm">
@@ -99,6 +75,7 @@ export function NewsContent() {
                 </p>
               </div>
             </motion.article>
+            </Link>
           ))}
         </div>
 

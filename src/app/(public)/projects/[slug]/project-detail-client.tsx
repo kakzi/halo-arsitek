@@ -3,9 +3,19 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Project } from '@/shared/lib/constants';
+// import { Project } from '@/shared/lib/constants';
 
-export function ProjectDetailClient({ project }: { project: Project }) {
+export function ProjectDetailClient({ project }: { project: any }) {
+  let imagesArray: string[] = [];
+  if (Array.isArray(project.images)) {
+    imagesArray = project.images;
+  } else if (typeof project.images === 'string') {
+    try {
+      imagesArray = JSON.parse(project.images);
+      if (!Array.isArray(imagesArray)) imagesArray = [];
+    } catch (e) {}
+  }
+
   return (
     <div className="fixed inset-0 bg-white overflow-y-auto pb-32">
       
@@ -17,13 +27,10 @@ export function ProjectDetailClient({ project }: { project: Project }) {
           transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
           className="absolute inset-0"
         >
-          <Image
+          <img
             src={project.coverImage}
             alt={project.title}
-            fill
-            className="object-cover"
-            priority
-            sizes="100vw"
+            className="w-full h-full object-cover"
           />
         </motion.div>
         {/* Subtle overlay for text readability */}
@@ -38,7 +45,7 @@ export function ProjectDetailClient({ project }: { project: Project }) {
           >
             <span className="w-10 h-[1px] bg-white/70" />
             <span className="text-white/90 text-xs md:text-sm tracking-[0.2em] uppercase font-medium">
-              {project.category}
+              {project.category?.name || 'Project'}
             </span>
           </motion.div>
 
@@ -99,9 +106,9 @@ export function ProjectDetailClient({ project }: { project: Project }) {
         </div>
 
         {/* ── GALLERY GRID ── */}
-        {project.images && project.images.length > 0 && (
+        {imagesArray.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-32">
-            {project.images.map((img, index) => (
+            {imagesArray.map((img, index) => (
               <motion.div
                 key={index}
                 initial={{ y: 30, opacity: 0 }}
@@ -112,12 +119,10 @@ export function ProjectDetailClient({ project }: { project: Project }) {
                   index % 3 === 0 ? 'md:col-span-2 aspect-[16/9]' : 'aspect-[4/5]'
                 }`}
               >
-                <Image
+                <img
                   src={img}
                   alt={`${project.title} - image ${index + 1}`}
-                  fill
-                  className="object-cover hover:scale-[1.03] transition-transform duration-[1.5s] ease-[cubic-bezier(0.22,1,0.36,1)]"
-                  sizes={index % 3 === 0 ? "100vw" : "(max-width: 768px) 100vw, 50vw"}
+                  className="w-full h-full object-cover hover:scale-[1.03] transition-transform duration-[1.5s] ease-[cubic-bezier(0.22,1,0.36,1)]"
                 />
               </motion.div>
             ))}
