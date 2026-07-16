@@ -22,7 +22,7 @@ const slideVariants: Variants = {
     filter: 'blur(0px)',
     transition: {
       duration: 1.2, 
-      ease: [0.19, 1, 0.22, 1]
+      ease: [0.19, 1, 0.22, 1] as any
     }
   },
   exit: (dir: number) => ({ 
@@ -30,7 +30,7 @@ const slideVariants: Variants = {
     zIndex: 0,
     transition: {
       duration: 0.8, 
-      ease: [0.19, 1, 0.22, 1]
+      ease: [0.19, 1, 0.22, 1] as any
     }
   }),
 };
