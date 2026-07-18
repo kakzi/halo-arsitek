@@ -22,6 +22,7 @@ export default function EditProjectPage({ params }: { params: Promise<{ id: stri
     coverImage: '',
     images: [] as string[],
     isPublished: false,
+    isHeadliner: false,
   });
   const [isUploadingGallery, setIsUploadingGallery] = useState(false);
   const [newGalleryUrl, setNewGalleryUrl] = useState('');
@@ -48,6 +49,7 @@ export default function EditProjectPage({ params }: { params: Promise<{ id: stri
             coverImage: data.data.coverImage,
             images: Array.isArray(data.data.images) ? data.data.images : [],
             isPublished: data.data.isPublished,
+            isHeadliner: data.data.isHeadliner ?? false,
           });
         }
         setIsLoading(false);
@@ -178,7 +180,7 @@ export default function EditProjectPage({ params }: { params: Promise<{ id: stri
     <>
       <AdminTopbar title="Edit Project" subtitle={form.title} />
 
-      <div className="p-4 md:p-8 max-w-4xl">
+      <div className="p-4 md:p-8 w-full">
         {error && (
           <div style={{ background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.2)', borderRadius: '8px', padding: '12px 16px', marginBottom: '24px', fontSize: '0.8125rem', color: '#EF4444' }}>
             {error}
@@ -488,11 +490,23 @@ export default function EditProjectPage({ params }: { params: Promise<{ id: stri
               )}
             </div>
 
-            <div style={{ marginBottom: '32px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <button type="button" onClick={() => setForm((p) => ({ ...p, isPublished: !p.isPublished }))} style={{ width: '44px', height: '24px', borderRadius: '12px', border: 'none', background: form.isPublished ? 'var(--admin-primary)' : '#E5E7EB', cursor: 'pointer', position: 'relative', transition: 'background 0.2s' }}>
-                <span style={{ position: 'absolute', top: '2px', left: form.isPublished ? '22px' : '2px', width: '20px', height: '20px', borderRadius: '50%', background: '#111827', transition: 'left 0.2s' }} />
-              </button>
-              <span style={{ fontSize: '0.875rem', color: 'var(--admin-text-secondary)' }}>{form.isPublished ? 'Published' : 'Draft'}</span>
+            <div style={{ marginBottom: '32px', display: 'flex', flexWrap: 'wrap', gap: '32px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <button type="button" onClick={() => setForm((p) => ({ ...p, isPublished: !p.isPublished }))} style={{ width: '44px', height: '24px', borderRadius: '12px', border: 'none', background: form.isPublished ? 'var(--admin-primary)' : '#E5E7EB', cursor: 'pointer', position: 'relative', transition: 'background 0.2s' }}>
+                  <span style={{ position: 'absolute', top: '2px', left: form.isPublished ? '22px' : '2px', width: '20px', height: '20px', borderRadius: '50%', background: '#111827', transition: 'left 0.2s' }} />
+                </button>
+                <span style={{ fontSize: '0.875rem', color: 'var(--admin-text-secondary)' }}>{form.isPublished ? 'Published' : 'Draft'}</span>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <button type="button" onClick={() => setForm((p) => ({ ...p, isHeadliner: !p.isHeadliner }))} style={{ width: '44px', height: '24px', borderRadius: '12px', border: 'none', background: form.isHeadliner ? '#EAB308' : '#E5E7EB', cursor: 'pointer', position: 'relative', transition: 'background 0.2s' }}>
+                  <span style={{ position: 'absolute', top: '2px', left: form.isHeadliner ? '22px' : '2px', width: '20px', height: '20px', borderRadius: '50%', background: '#111827', transition: 'left 0.2s' }} />
+                </button>
+                <span style={{ fontSize: '0.875rem', color: 'var(--admin-text-secondary)', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                  <Star size={14} fill={form.isHeadliner ? '#EAB308' : 'none'} color={form.isHeadliner ? '#EAB308' : 'currentColor'} />
+                  {form.isHeadliner ? 'Headliner (Home Slider)' : 'Normal Project'}
+                </span>
+              </div>
             </div>
 
             <div style={{ display: 'flex', gap: '12px' }}>

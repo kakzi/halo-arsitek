@@ -34,15 +34,15 @@ export default function ContactsPage() {
 
   const statusColors: Record<string, { bg: string; text: string }> = {
     UNREAD: { bg: 'rgba(148, 163, 184, 0.15)', text: 'var(--admin-primary)' },
-    READ: { bg: 'rgba(138, 138, 142, 0.1)', text: '#8A8A8E' },
+    READ: { bg: 'rgba(138, 138, 142, 0.1)', text: 'var(--admin-text-secondary)' },
     REPLIED: { bg: 'rgba(52, 211, 153, 0.1)', text: '#34D399' },
-    ARCHIVED: { bg: 'rgba(60, 60, 62, 0.3)', text: '#3C3C3E' },
+    ARCHIVED: { bg: 'rgba(148, 163, 184, 0.15)', text: 'var(--admin-text-secondary)' },
   };
 
   return (
     <>
       <AdminTopbar title="Contact Submissions" subtitle="Messages from website visitors" />
-      <div className="p-4 md:p-8">
+      <div className="p-4 md:p-8 w-full">
         {/* Filter */}
         <div className="flex flex-wrap gap-2 mb-6">
           {['', 'UNREAD', 'READ', 'REPLIED'].map((f) => {
@@ -64,11 +64,11 @@ export default function ContactsPage() {
           {/* List */}
           <div style={{ background: 'var(--admin-bg-card)', boxShadow: 'var(--admin-shadow)', border: 'none', borderRadius: '12px', overflow: 'hidden' }}>
             {isLoading ? <div style={{ padding: '48px', textAlign: 'center', color: 'var(--admin-text-secondary)' }}>Loading...</div> : contacts.length === 0 ? <div style={{ padding: '48px', textAlign: 'center', color: 'var(--admin-text-secondary)' }}><div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}><Mail size={32} /></div><p>No messages found</p></div> : contacts.map((c, idx) => (
-              <div key={c.id} onClick={() => { setSelectedContact(c); if (c.status === 'UNREAD') markAsRead(c.id); }} style={{ padding: '16px 20px', borderBottom: idx < contacts.length - 1 ? '1px solid #F9FAFB' : 'none', cursor: 'pointer', background: selectedContact?.id === c.id ? '#F9FAFB' : 'transparent', transition: 'background 0.2s' }} onMouseEnter={(e) => { if (selectedContact?.id !== c.id) e.currentTarget.style.background = '#F9FAFB'; }} onMouseLeave={(e) => { if (selectedContact?.id !== c.id) e.currentTarget.style.background = 'transparent'; }}>
+              <div key={c.id} onClick={() => { setSelectedContact(c); if (c.status === 'UNREAD') markAsRead(c.id); }} style={{ padding: '16px 20px', borderBottom: idx < contacts.length - 1 ? '1px solid var(--admin-border)' : 'none', cursor: 'pointer', background: selectedContact?.id === c.id ? 'var(--admin-hover-bg)' : 'transparent', transition: 'background 0.2s' }} onMouseEnter={(e) => { if (selectedContact?.id !== c.id) e.currentTarget.style.background = 'var(--admin-hover-bg)'; }} onMouseLeave={(e) => { if (selectedContact?.id !== c.id) e.currentTarget.style.background = 'transparent'; }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '4px' }}>
-                  <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: c.status === 'UNREAD' ? 'var(--admin-primary)' : '#3C3C3E', flexShrink: 0 }} />
+                  <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: c.status === 'UNREAD' ? 'var(--admin-primary)' : 'var(--admin-text-secondary)', flexShrink: 0 }} />
                   <span style={{ color: 'var(--admin-text-primary)', fontSize: '0.875rem', fontWeight: c.status === 'UNREAD' ? 600 : 400 }}>{c.name}</span>
-                  <span style={{ marginLeft: 'auto', fontSize: '0.6875rem', color: '#3C3C3E' }}>{new Date(c.createdAt).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                  <span style={{ marginLeft: 'auto', fontSize: '0.6875rem', color: 'var(--admin-text-secondary)' }}>{new Date(c.createdAt).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
                 </div>
                 <p style={{ color: 'var(--admin-text-secondary)', fontSize: '0.8125rem', margin: '0 0 0 20px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{c.message}</p>
               </div>
@@ -94,7 +94,7 @@ export default function ContactsPage() {
                 <p style={{ color: 'var(--admin-text-primary)', fontSize: '0.875rem', margin: '8px 0 0', lineHeight: 1.7, background: 'var(--admin-bg-card)', borderRadius: '8px', padding: '16px' }}>{selectedContact.message}</p>
               </div>
 
-              <div style={{ fontSize: '0.6875rem', color: '#3C3C3E', marginBottom: '20px' }}>
+              <div style={{ fontSize: '0.6875rem', color: 'var(--admin-text-secondary)', marginBottom: '20px' }}>
                 Received: {new Date(selectedContact.createdAt).toLocaleString('en-US')}
                 {selectedContact.readAt && <><br />Read: {new Date(selectedContact.readAt).toLocaleString('en-US')}</>}
               </div>

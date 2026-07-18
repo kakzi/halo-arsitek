@@ -16,6 +16,7 @@ const updateProjectSchema = z.object({
   coverImage: z.string().min(1).max(500).optional(),
   images: z.array(z.string()).optional(),
   isPublished: z.boolean().optional(),
+  isHeadliner: z.boolean().optional(),
   sortOrder: z.number().int().optional(),
 });
 

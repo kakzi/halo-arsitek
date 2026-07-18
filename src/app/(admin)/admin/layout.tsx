@@ -34,7 +34,7 @@ function AdminLayoutContent({ children, isLoginPage, sidebarWidth }: { children:
         />
       )}
       <main
-        className="admin-root"
+        className="admin-root w-full flex-1"
         data-admin-root="true"
         style={{
           flex: 1,
@@ -42,7 +42,7 @@ function AdminLayoutContent({ children, isLoginPage, sidebarWidth }: { children:
           minHeight: '100vh',
           transition: 'margin-left 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
           overflow: 'auto',
-          width: isMobile ? '100%' : 'auto',
+          width: isLoginPage || isMobile ? '100%' : `calc(100% - ${sidebarWidth}px)`,
         }}
       >
         {children}

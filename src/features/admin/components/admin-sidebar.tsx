@@ -97,13 +97,12 @@ export function AdminSidebar() {
     return false;
   };
 
-  const isDark = mounted && theme === 'dark';
-  const sidebarBg = isDark ? '#1C2434' : '#FFFFFF';
-  const sidebarBorder = isDark ? '#2E3A47' : '#E2E8F0';
-  const sidebarText = isDark ? '#DEE4EE' : '#1C2434';
-  const sidebarTextMuted = isDark ? '#8A99AF' : '#64748B';
-  const sidebarHover = isDark ? '#333A48' : '#F1F5F9';
-  const sidebarActive = isDark ? '#333A48' : '#EEF2FF';
+  const sidebarBg = 'var(--admin-sidebar-bg)';
+  const sidebarBorder = 'var(--admin-border)';
+  const sidebarText = 'var(--admin-sidebar-text)';
+  const sidebarTextMuted = 'var(--admin-sidebar-text-muted)';
+  const sidebarHover = 'var(--admin-sidebar-hover)';
+  const sidebarActive = 'var(--admin-sidebar-active)';
 
   return (
     <aside

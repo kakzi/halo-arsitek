@@ -91,7 +91,7 @@ export default function AuditLogsPage() {
         subtitle="Track system actions, security events, and data modifications across the platform"
       />
 
-      <div className="p-4 md:p-8">
+      <div className="p-4 md:p-8 w-full">
         {/* Top Search Bar Card */}
         <div
           style={{

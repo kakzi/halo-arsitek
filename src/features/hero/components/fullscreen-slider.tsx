@@ -4,7 +4,7 @@ import { useState, useCallback, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { projects } from '@/shared/lib/constants';
+import { projects as mockProjects } from '@/shared/lib/constants';
 import { navItems } from '@/shared/config/navigation.config';
 import { Magnetic } from '@/shared/animations/magnetic';
 
@@ -35,36 +35,77 @@ const slideVariants: any = {
   }),
 };
 
-export function FullscreenSlider() {
+interface SlideProject {
+  id: string;
+  title: string;
+  slug: string;
+  coverImage: string;
+  location: string;
+  year: number;
+}
+
+interface FullscreenSliderProps {
+  initialProjects?: SlideProject[];
+}
+
+export function FullscreenSlider({ initialProjects }: FullscreenSliderProps = {}) {
+  const [slideProjects, setSlideProjects] = useState<SlideProject[]>(
+    initialProjects && initialProjects.length > 0 ? initialProjects : mockProjects
+  );
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [isClient, setIsClient] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
 
-  useEffect(() => { setIsClient(true); }, []);
+  useEffect(() => {
+    setIsClient(true);
+    fetch('/api/public/projects?headliner=true')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && Array.isArray(data.data) && data.data.length > 0) {
+          setSlideProjects(data.data);
+        }
+      })
+      .catch((err) => {
+        console.error('Failed to fetch headliner projects:', err);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (slideProjects.length > 0 && currentIndex >= slideProjects.length) {
+      setCurrentIndex(0);
+    }
+  }, [slideProjects, currentIndex]);
 
   const goToSlide = useCallback((newIndex: number) => {
-    if (newIndex === currentIndex) return;
+    if (newIndex === currentIndex || slideProjects.length === 0) return;
     setDirection(newIndex > currentIndex ? 1 : -1);
     setCurrentIndex(newIndex);
-  }, [currentIndex]);
+  }, [currentIndex, slideProjects.length]);
 
-  const handleNext = useCallback(() => goToSlide((currentIndex + 1) % projects.length), [currentIndex, goToSlide]);
-  const handlePrev = useCallback(() => goToSlide((currentIndex - 1 + projects.length) % projects.length), [currentIndex, goToSlide]);
+  const handleNext = useCallback(() => {
+    if (slideProjects.length === 0) return;
+    goToSlide((currentIndex + 1) % slideProjects.length);
+  }, [currentIndex, goToSlide, slideProjects.length]);
+
+  const handlePrev = useCallback(() => {
+    if (slideProjects.length === 0) return;
+    goToSlide((currentIndex - 1 + slideProjects.length) % slideProjects.length);
+  }, [currentIndex, goToSlide, slideProjects.length]);
 
   // Autoslider functionality
   useEffect(() => {
-    if (isHovering) return;
+    if (isHovering || slideProjects.length <= 1) return;
     const timer = setInterval(() => {
       handleNext();
     }, AUTOSLIDE_INTERVAL);
 
     return () => clearInterval(timer);
-  }, [handleNext, isHovering]);
+  }, [handleNext, isHovering, slideProjects.length]);
 
-  if (!isClient) return <div className="w-full h-screen bg-[#0A0A0A]" />;
+  if (!isClient || slideProjects.length === 0) return <div className="w-full h-screen bg-[#0A0A0A]" />;
 
-  const p = projects[currentIndex];
+  const p = slideProjects[currentIndex] || slideProjects[0];
 
   const swipeConfidenceThreshold = 10000;
   const swipePower = (offset: number, velocity: number) => Math.abs(offset) * velocity;
@@ -189,7 +230,7 @@ export function FullscreenSlider() {
           </div>
 
           <span className="text-white/80 text-xs tabular-nums drop-shadow-md tracking-widest">
-            {String(projects.length).padStart(2, '0')}
+            {String(slideProjects.length).padStart(2, '0')}
           </span>
         </div>
 

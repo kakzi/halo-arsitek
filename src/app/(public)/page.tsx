@@ -1,5 +1,6 @@
 import { createPageMetadata } from '@/shared/lib/metadata';
 import { FullscreenSlider } from '@/features/hero/components/fullscreen-slider';
+import { prisma } from '@/shared/lib/prisma';
 
 // Generate SEO Metadata for the home page
 export const metadata = createPageMetadata({
@@ -9,10 +10,54 @@ export const metadata = createPageMetadata({
   path: '/',
 });
 
-export default function HomePage() {
+export const dynamic = 'force-dynamic';
+
+interface SlideProject {
+  id: string;
+  title: string;
+  slug: string;
+  coverImage: string;
+  location: string;
+  year: number;
+}
+
+export default async function HomePage() {
+  let headlinerProjects: SlideProject[] = [];
+  try {
+    headlinerProjects = await prisma.project.findMany({
+      where: { isPublished: true, isHeadliner: true },
+      orderBy: [{ sortOrder: 'asc' }, { year: 'desc' }],
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        coverImage: true,
+        location: true,
+        year: true,
+      },
+    });
+
+    if (headlinerProjects.length === 0) {
+      headlinerProjects = await prisma.project.findMany({
+        where: { isPublished: true },
+        orderBy: [{ sortOrder: 'asc' }, { year: 'desc' }],
+        select: {
+          id: true,
+          title: true,
+          slug: true,
+          coverImage: true,
+          location: true,
+          year: true,
+        },
+      });
+    }
+  } catch (error) {
+    console.error('Failed to load headliner projects in SSR:', error);
+  }
+
   return (
     <main className="h-screen w-full overflow-hidden bg-white">
-      <FullscreenSlider />
+      <FullscreenSlider initialProjects={headlinerProjects} />
     </main>
   );
 }

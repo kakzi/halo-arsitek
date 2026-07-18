@@ -77,7 +77,7 @@ export default function ServicesPage() {
   return (
     <>
       <AdminTopbar title="Services" subtitle="Manage studio services" />
-      <div className="p-4 md:p-8">
+      <div className="p-4 md:p-8 w-full">
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '24px' }}>
           <p style={{ fontSize: '0.875rem', color: 'var(--admin-text-secondary)', margin: 0 }}>{services.length} service(s)</p>
           <button onClick={() => { resetForm(); setShowForm(true); }} style={{ padding: '10px 20px', background: 'var(--admin-primary)', borderRadius: '8px', color: '#FFFFFF', fontSize: '0.8125rem', fontWeight: 600, border: 'none', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '6px' }}><Plus size={16} /> Add New</button>
@@ -94,7 +94,7 @@ export default function ServicesPage() {
                     <div
                       onClick={() => setShowIconPicker(true)}
                       title="Click to open visual icon grid"
-                      style={{ width: '48px', height: '48px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--admin-hover-bg)', border: '1px solid var(--admin-border)', borderRadius: '8px', cursor: 'pointer', flexShrink: 0, color: 'var(--admin-primary)' }}
+                      style={{ width: '48px', height: '48px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--admin-hover-bg)', border: '1px solid var(--admin-border)', borderRadius: '8px', cursor: 'pointer', flexShrink: 0, color: 'var(--admin-primary-text)' }}
                     >
                       <DynamicIcon name={form.icon} size={24} />
                     </div>
@@ -115,7 +115,7 @@ export default function ServicesPage() {
                     <button
                       type="button"
                       onClick={() => setShowIconPicker(true)}
-                      style={{ padding: '12px', background: 'var(--admin-hover-bg)', border: '1px solid var(--admin-border)', borderRadius: '8px', color: 'var(--admin-primary)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                      style={{ padding: '12px', background: 'var(--admin-hover-bg)', border: '1px solid var(--admin-border)', borderRadius: '8px', color: 'var(--admin-primary-text)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                       title="Browse Icon Grid"
                     >
                       <Grid size={18} />
@@ -193,13 +193,13 @@ export default function ServicesPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {isLoading ? [1, 2, 3, 4].map((i) => <div key={i} style={{ background: 'var(--admin-bg-card)', boxShadow: 'var(--admin-shadow)', border: 'none', borderRadius: '12px', height: '160px' }} />) : services.length === 0 ? <div style={{ gridColumn: '1 / -1', padding: '48px', textAlign: 'center', color: 'var(--admin-text-secondary)', background: 'var(--admin-bg-card)', borderRadius: '12px', border: '1px solid var(--admin-border)' }}><div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}><DynamicIcon name="Box" size={48} /></div><p>No services found</p></div> : services.map((s) => (
             <div key={s.id} style={{ background: 'var(--admin-bg-card)', boxShadow: 'var(--admin-shadow)', border: 'none', borderRadius: '12px', padding: '24px', transition: 'all 0.2s' }} onMouseEnter={(e) => (e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)')} onMouseLeave={(e) => (e.currentTarget.style.boxShadow = 'var(--admin-shadow)')}>
-              <div style={{ marginBottom: '16px', color: 'var(--admin-primary)' }}>
+              <div style={{ marginBottom: '16px', color: 'var(--admin-primary-text)' }}>
                 <DynamicIcon name={s.icon} />
               </div>
               <h3 style={{ color: 'var(--admin-text-primary)', fontSize: '1rem', fontWeight: 600, margin: '0 0 8px', fontFamily: 'var(--font-outfit), sans-serif' }}>{s.title}</h3>
               <p style={{ color: 'var(--admin-text-secondary)', fontSize: '0.8125rem', margin: '0 0 16px', lineHeight: 1.5 }}>{s.description}</p>
               <div style={{ display: 'flex', gap: '8px' }}>
-                <button onClick={() => handleEdit(s)} style={{ padding: '4px 12px', borderRadius: '6px', background: 'var(--admin-hover-bg)', color: 'var(--admin-primary)', fontSize: '0.75rem', border: '1px solid var(--admin-border)', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '4px' }}><Edit2 size={13} /> Edit</button>
+                <button onClick={() => handleEdit(s)} style={{ padding: '4px 12px', borderRadius: '6px', background: 'var(--admin-hover-bg)', color: 'var(--admin-primary-text)', fontSize: '0.75rem', border: '1px solid var(--admin-border)', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '4px', fontWeight: 500 }}><Edit2 size={13} /> Edit</button>
                 <button onClick={() => handleDelete(s.id)} style={{ padding: '4px 12px', borderRadius: '6px', background: 'rgba(239,68,68,0.1)', color: '#EF4444', fontSize: '0.75rem', border: '1px solid rgba(239,68,68,0.2)', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '4px' }}><Trash2 size={13} /> Delete</button>
               </div>
             </div>

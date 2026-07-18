@@ -28,7 +28,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const res = await fetch('/api/auth/me');
       if (res.ok) {
         const data = await res.json();
-        setAdmin(data.admin);
+        setAdmin(data.admin || null);
       } else {
         setAdmin(null);
       }

@@ -67,7 +67,7 @@ export default function NewsCategoriesPage() {
   return (
     <>
       <AdminTopbar title="News Categories" subtitle="Manage news article categories" />
-      <div className="p-4 md:p-8">
+      <div className="p-4 md:p-8 w-full">
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '24px' }}>
           <p style={{ fontSize: '0.875rem', color: 'var(--admin-text-secondary)', margin: 0 }}>{categories.length} category(s)</p>
           <button onClick={() => { resetForm(); setShowForm(true); }} style={{ padding: '10px 20px', background: 'var(--admin-primary)', borderRadius: '8px', color: '#FFFFFF', fontSize: '0.8125rem', fontWeight: 600, border: 'none', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '6px' }}><Plus size={16} /> Add New</button>
@@ -97,7 +97,7 @@ export default function NewsCategoriesPage() {
               <p style={{ color: 'var(--admin-text-secondary)', fontSize: '0.75rem', margin: '0 0 12px' }}>/{c.slug}</p>
               <p style={{ color: 'var(--admin-text-secondary)', fontSize: '0.8125rem', margin: '0 0 16px', lineHeight: 1.5, minHeight: '38px' }}>{c.description || <span style={{ fontStyle: 'italic', opacity: 0.5 }}>No description</span>}</p>
               <div style={{ display: 'flex', gap: '8px' }}>
-                <button onClick={() => handleEdit(c)} style={{ padding: '4px 12px', borderRadius: '6px', background: 'var(--admin-hover-bg)', color: 'var(--admin-primary)', fontSize: '0.75rem', border: '1px solid var(--admin-border)', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '4px' }}><Edit2 size={13} /> Edit</button>
+                <button onClick={() => handleEdit(c)} style={{ padding: '4px 12px', borderRadius: '6px', background: 'var(--admin-hover-bg)', color: 'var(--admin-primary-text)', fontSize: '0.75rem', border: '1px solid var(--admin-border)', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '4px', fontWeight: 500 }}><Edit2 size={13} /> Edit</button>
                 <button onClick={() => handleDelete(c.id)} style={{ padding: '4px 12px', borderRadius: '6px', background: 'rgba(239,68,68,0.1)', color: '#EF4444', fontSize: '0.75rem', border: '1px solid rgba(239,68,68,0.2)', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '4px' }}><Trash2 size={13} /> Delete</button>
               </div>
             </div>

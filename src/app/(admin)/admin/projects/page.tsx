@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { AdminTopbar } from '@/features/admin';
-import { Building2, Plus, Edit2, Trash2, CheckCircle2, CircleSlash, ExternalLink } from 'lucide-react';
+import { Building2, Plus, Edit2, Trash2, CheckCircle2, CircleSlash, ExternalLink, Star } from 'lucide-react';
 
 interface Project {
   id: string;
@@ -14,6 +14,7 @@ interface Project {
   year: number;
   location: string;
   isPublished: boolean;
+  isHeadliner: boolean;
   sortOrder: number;
   createdAt: string;
 }
@@ -64,6 +65,21 @@ export default function ProjectsPage() {
     }
   };
 
+  const toggleHeadliner = async (id: string, isHeadliner: boolean) => {
+    try {
+      await fetch(`/api/admin/projects/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ isHeadliner: !isHeadliner }),
+      });
+      setProjects((prev) =>
+        prev.map((p) => (p.id === id ? { ...p, isHeadliner: !isHeadliner } : p))
+      );
+    } catch {
+      alert('Failed to update headliner status');
+    }
+  };
+
   const categoryColors: Record<string, string> = {
     residensial: '#34D399',
     komersial: '#60A5FA',
@@ -74,7 +90,7 @@ export default function ProjectsPage() {
     <>
       <AdminTopbar title="Projects" subtitle="Manage architectural portfolio projects" />
 
-      <div className="p-4 md:p-8">
+      <div className="p-4 md:p-8 w-full">
         {/* Header Actions */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
           <p style={{ fontSize: '0.875rem', color: 'var(--admin-text-secondary)', margin: 0 }}>
@@ -122,7 +138,7 @@ export default function ProjectsPage() {
               <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '700px' }}>
               <thead>
                 <tr style={{ borderBottom: '1px solid var(--admin-border)' }}>
-                  {['Title', 'Category', 'Year', 'Location', 'Status', 'Actions'].map((h) => (
+                  {['Title', 'Category', 'Year', 'Location', 'Status', 'Headliner', 'Actions'].map((h) => (
                     <th
                       key={h}
                       style={{
@@ -146,10 +162,10 @@ export default function ProjectsPage() {
                   <tr
                     key={project.id}
                     style={{
-                      borderBottom: '1px solid #F9FAFB',
+                      borderBottom: '1px solid var(--admin-border)',
                       transition: 'background 0.2s',
                     }}
-                    onMouseEnter={(e) => (e.currentTarget.style.background = '#F9FAFB')}
+                    onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--admin-hover-bg)')}
                     onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
                   >
                     <td style={{ padding: '14px 20px' }}>
@@ -157,7 +173,7 @@ export default function ProjectsPage() {
                         {project.title}
                       </span>
                       <br />
-                      <span style={{ color: '#3C3C3E', fontSize: '0.75rem' }}>/{project.slug}</span>
+                      <span style={{ color: 'var(--admin-text-secondary)', fontSize: '0.75rem' }}>/{project.slug}</span>
                     </td>
                     <td style={{ padding: '14px 20px' }}>
                       <span
@@ -199,6 +215,27 @@ export default function ProjectsPage() {
                         }}
                       >
                         {project.isPublished ? <><CheckCircle2 size={12} /> Published</> : <><CircleSlash size={12} /> Draft</>}
+                      </button>
+                    </td>
+                    <td style={{ padding: '14px 20px' }}>
+                      <button
+                        onClick={() => toggleHeadliner(project.id, project.isHeadliner)}
+                        style={{
+                          padding: '3px 10px',
+                          borderRadius: '100px',
+                          fontSize: '0.6875rem',
+                          fontWeight: 500,
+                          background: project.isHeadliner ? 'rgba(234, 179, 8, 0.1)' : 'rgba(138, 138, 142, 0.1)',
+                          color: project.isHeadliner ? '#EAB308' : '#8A8A8E',
+                          border: `1px solid ${project.isHeadliner ? 'rgba(234, 179, 8, 0.3)' : 'rgba(138, 138, 142, 0.3)'}`,
+                          cursor: 'pointer',
+                          transition: 'all 0.2s',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '4px',
+                        }}
+                      >
+                        <Star size={12} fill={project.isHeadliner ? '#EAB308' : 'none'} /> {project.isHeadliner ? 'Headliner' : 'Normal'}
                       </button>
                     </td>
                     <td style={{ padding: '14px 20px' }}>

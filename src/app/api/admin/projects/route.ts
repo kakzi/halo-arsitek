@@ -16,6 +16,7 @@ const createProjectSchema = z.object({
   coverImage: z.string().min(1).max(500),
   images: z.array(z.string()).default([]),
   isPublished: z.boolean().default(false),
+  isHeadliner: z.boolean().default(false),
   sortOrder: z.number().int().default(0),
 });
 
@@ -31,12 +32,16 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '20');
     const categoryId = searchParams.get('categoryId');
     const published = searchParams.get('published');
+    const headliner = searchParams.get('headliner');
     const search = searchParams.get('search');
 
     const where: Record<string, unknown> = {};
     if (categoryId) where.categoryId = categoryId;
     if (published !== null && published !== undefined && published !== '') {
       where.isPublished = published === 'true';
+    }
+    if (headliner !== null && headliner !== undefined && headliner !== '') {
+      where.isHeadliner = headliner === 'true';
     }
     if (search) {
       where.OR = [

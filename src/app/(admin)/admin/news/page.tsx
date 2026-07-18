@@ -131,7 +131,7 @@ export default function NewsPage() {
   return (
     <>
       <AdminTopbar title="News" subtitle="Manage articles and news" />
-      <div className="p-4 md:p-8">
+      <div className="p-4 md:p-8 w-full">
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '24px' }}>
           <p style={{ fontSize: '0.875rem', color: 'var(--admin-text-secondary)', margin: 0 }}>{news.length} article(s)</p>
           <button onClick={() => { resetForm(); setShowForm(true); }} style={{ padding: '10px 20px', background: 'var(--admin-primary)', borderRadius: '8px', color: '#FFFFFF', fontSize: '0.8125rem', fontWeight: 600, border: 'none', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '6px' }}><Plus size={16} /> Add New</button>
@@ -157,25 +157,25 @@ export default function NewsPage() {
                   <label style={labelStyle}>Cover Image</label>
                   <div style={{ display: 'flex', gap: '12px' }}>
                     <input type="text" value={form.coverImage} onChange={(e) => setForm((p) => ({ ...p, coverImage: e.target.value }))} required style={{ ...inputStyle, flex: 1 }} placeholder="Image URL or upload file" onFocus={(e) => (e.target.style.borderColor = 'var(--admin-primary)')} onBlur={(e) => (e.target.style.borderColor = 'var(--admin-border)')} />
-                    <label style={{ padding: '12px 16px', background: 'var(--admin-hover-bg)', border: '1px solid var(--admin-border)', borderRadius: '8px', color: 'var(--admin-primary)', fontSize: '0.8125rem', cursor: 'pointer', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: '6px' }}><Upload size={16} /> Upload<input type="file" accept="image/*" hidden onChange={(e) => { const f = e.target.files?.[0]; if (f) handleImageUpload(f); }} /></label>
+                    <label style={{ padding: '12px 16px', background: 'var(--admin-hover-bg)', border: '1px solid var(--admin-border)', borderRadius: '8px', color: 'var(--admin-primary-text)', fontSize: '0.8125rem', cursor: 'pointer', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 500 }}><Upload size={16} /> Upload<input type="file" accept="image/*" hidden onChange={(e) => { const f = e.target.files?.[0]; if (f) handleImageUpload(f); }} /></label>
                   </div>
                 </div>
               </div>
               <div style={{ marginBottom: '16px' }}>
                 <label style={labelStyle}>Status</label>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <input type="checkbox" id="isPublished" checked={form.isPublished} onChange={(e) => setForm((p) => ({ ...p, isPublished: e.target.checked }))} />
-                  <label htmlFor="isPublished" style={{ fontSize: '0.875rem', color: 'var(--admin-text-primary)' }}>Published</label>
+                <div style={{ display: 'flex', gap: '16px' }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.875rem', color: 'var(--admin-text-primary)', cursor: 'pointer' }}>
+                    <input type="radio" checked={form.isPublished} onChange={() => setForm((p) => ({ ...p, isPublished: true }))} /> Published
+                  </label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.875rem', color: 'var(--admin-text-primary)', cursor: 'pointer' }}>
+                    <input type="radio" checked={!form.isPublished} onChange={() => setForm((p) => ({ ...p, isPublished: false }))} /> Draft
+                  </label>
                 </div>
               </div>
-              <MarkdownEditor
-                value={form.content}
-                onChange={(val) => setForm((p) => ({ ...p, content: val }))}
-                label="Content (Supports Markdown)"
-                required
-                rows={10}
-                placeholder="Write news article content here (supports Markdown formatting)..."
-              />
+              <div style={{ marginBottom: '20px' }}>
+                <label style={labelStyle}>Content</label>
+                <textarea value={form.content} onChange={(e) => setForm((p) => ({ ...p, content: e.target.value }))} rows={10} style={{ ...inputStyle, resize: 'vertical', fontFamily: 'monospace' }} onFocus={(e) => (e.target.style.borderColor = 'var(--admin-primary)')} onBlur={(e) => (e.target.style.borderColor = 'var(--admin-border)')} />
+              </div>
               <div style={{ display: 'flex', gap: '12px' }}>
                 <button type="submit" style={{ padding: '10px 20px', background: 'var(--admin-primary)', border: 'none', borderRadius: '8px', color: '#FFFFFF', fontSize: '0.8125rem', fontWeight: 600, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '6px' }}><Save size={15} /> {editingId ? 'Update' : 'Save'}</button>
                 <button type="button" onClick={resetForm} style={{ padding: '10px 20px', background: 'transparent', border: '1px solid var(--admin-border)', borderRadius: '8px', color: 'var(--admin-text-secondary)', fontSize: '0.8125rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '6px' }}><X size={15} /> Cancel</button>
@@ -184,17 +184,17 @@ export default function NewsPage() {
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {isLoading ? [1, 2, 3].map((i) => <div key={i} style={{ background: 'var(--admin-bg-card)', boxShadow: 'var(--admin-shadow)', border: 'none', borderRadius: '12px', height: '300px' }} />) : news.length === 0 ? <div style={{ gridColumn: '1 / -1', padding: '48px', textAlign: 'center', color: 'var(--admin-text-secondary)', background: 'var(--admin-bg-card)', borderRadius: '12px', border: '1px solid var(--admin-border)' }}><div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}><FileText size={48} /></div><p>No news articles found</p></div> : news.map((n) => (
-            <div key={n.id} style={{ background: 'var(--admin-bg-card)', boxShadow: 'var(--admin-shadow)', border: 'none', borderRadius: '12px', overflow: 'hidden', transition: 'all 0.2s', display: 'flex', flexDirection: 'column' }} onMouseEnter={(e) => (e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)')} onMouseLeave={(e) => (e.currentTarget.style.boxShadow = 'var(--admin-shadow)')}>
-              <div style={{ position: 'relative', width: '100%', height: '180px' }}>
+            <div key={n.id} style={{ background: 'var(--admin-bg-card)', boxShadow: 'var(--admin-shadow)', border: 'none', borderRadius: '12px', overflow: 'hidden', display: 'flex', flexDirection: 'column', transition: 'all 0.2s' }} onMouseEnter={(e) => (e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)')} onMouseLeave={(e) => (e.currentTarget.style.boxShadow = 'var(--admin-shadow)')}>
+              <div style={{ position: 'relative', width: '100%', height: '180px', background: 'var(--admin-hover-bg)' }}>
                 <Image src={n.coverImage} alt={n.title} fill style={{ objectFit: 'cover' }} unoptimized />
                 <div style={{ position: 'absolute', top: '12px', right: '12px', background: n.isPublished ? '#10B981' : '#F59E0B', color: '#fff', fontSize: '0.625rem', padding: '4px 8px', borderRadius: '4px', fontWeight: 600, textTransform: 'uppercase' }}>
                   {n.isPublished ? 'Published' : 'Draft'}
                 </div>
               </div>
               <div style={{ padding: '20px', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <span style={{ fontSize: '0.6875rem', color: 'var(--admin-primary)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px', display: 'block', fontWeight: 600 }}>{n.category.name}</span>
+                <span style={{ fontSize: '0.6875rem', color: 'var(--admin-primary-text)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px', display: 'block', fontWeight: 600 }}>{n.category.name}</span>
                 <h3 style={{ color: 'var(--admin-text-primary)', fontSize: '1.125rem', fontWeight: 600, margin: '0 0 8px', fontFamily: 'var(--font-outfit), sans-serif', lineHeight: 1.3 }}>{n.title}</h3>
                 <p style={{ color: 'var(--admin-text-secondary)', fontSize: '0.75rem', margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: '4px' }}>
                   {new Date(n.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}

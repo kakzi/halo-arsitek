@@ -120,7 +120,7 @@ export default function TestimonialsPage() {
   return (
     <>
       <AdminTopbar title="Testimonials" subtitle="Manage client testimonials and feedback" />
-      <div className="p-4 md:p-8">
+      <div className="p-4 md:p-8 w-full">
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '24px' }}>
           <p style={{ fontSize: '0.875rem', color: 'var(--admin-text-secondary)', margin: 0 }}>
             {testimonials.length} testimonial(s)

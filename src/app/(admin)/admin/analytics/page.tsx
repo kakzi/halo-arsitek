@@ -263,7 +263,7 @@ export default function AnalyticsPage() {
   return (
     <>
       <AdminTopbar title="Website Analytics" subtitle="Statistik pengunjung, device, browser & sumber traffic" />
-      <div className="p-4 md:p-8">
+      <div className="p-4 md:p-8 w-full">
 
         {/* ─── Controls ──────────────────────────────────────────── */}
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '24px' }}>

@@ -63,6 +63,7 @@ model Project {
   coverImage  String          @map("cover_image") @db.VarChar(500)
   images      Json            @default("[]")
   isPublished Boolean         @default(false) @map("is_published")
+  isHeadliner Boolean         @default(false) @map("is_headliner")
   sortOrder   Int             @default(0) @map("sort_order")
   createdAt   DateTime        @default(now()) @map("created_at")
   updatedAt   DateTime        @updatedAt @map("updated_at")
@@ -71,6 +72,7 @@ model Project {
 
   @@index([categoryId])
   @@index([isPublished])
+  @@index([isHeadliner])
   @@index([sortOrder])
   @@map("projects")
 }

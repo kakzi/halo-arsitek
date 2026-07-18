@@ -181,7 +181,7 @@ export default function ProfilePage() {
   return (
     <>
       <AdminTopbar title="Account Profile" subtitle="Manage your identity, role settings, and account security" />
-      <div className="p-4 md:p-8" style={{ maxWidth: '1080px' }}>
+      <div className="p-4 md:p-8 w-full">
         
         {/* Hero Profile Banner */}
         {profile && (

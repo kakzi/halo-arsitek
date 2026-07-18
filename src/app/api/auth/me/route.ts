@@ -10,8 +10,8 @@ export async function GET(request: NextRequest) {
 
     if (!token) {
       return NextResponse.json(
-        { error: 'Not authenticated' },
-        { status: 401 }
+        { authenticated: false, admin: null, error: 'Not authenticated' },
+        { status: 200 }
       );
     }
 
@@ -19,12 +19,13 @@ export async function GET(request: NextRequest) {
 
     if (!payload) {
       return NextResponse.json(
-        { error: 'Session invalid or expired' },
-        { status: 401 }
+        { authenticated: false, admin: null, error: 'Session invalid or expired' },
+        { status: 200 }
       );
     }
 
     return NextResponse.json({
+      authenticated: true,
       admin: {
         id: payload.sub,
         email: payload.email,

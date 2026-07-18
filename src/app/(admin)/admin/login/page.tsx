@@ -1,12 +1,15 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
+import { useState, useEffect, type FormEvent, Suspense } from 'react';
+import Image from 'next/image';
+import { useTheme } from 'next-themes';
 import { useAuth } from '@/features/admin';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Suspense } from 'react';
 import { Eye, EyeOff, AlertTriangle, LogIn } from 'lucide-react';
 
 function LoginForm() {
+  const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -16,6 +19,10 @@ function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams.get('redirect') || '/admin';
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -65,18 +72,29 @@ function LoginForm() {
       >
         {/* Logo */}
         <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-          <h1
-            style={{
-              fontFamily: 'var(--font-outfit), sans-serif',
-              fontSize: '2rem',
-              color: 'var(--admin-primary)',
-              fontWeight: 600,
-              letterSpacing: '-0.02em',
-              margin: '0 0 8px',
-            }}
-          >
-            HaloArsitek
-          </h1>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '14px', marginBottom: '8px' }}>
+            <Image
+              src={mounted && theme === 'dark' ? '/logo/logo-halo-arsitek-white.png' : '/logo/logo-halo-arsitek-black.png'}
+              alt="Halo Arsitek Logo"
+              width={44}
+              height={44}
+              style={{ objectFit: 'contain' }}
+              priority
+            />
+            <h1
+              style={{
+                fontFamily: 'var(--font-outfit), sans-serif',
+                fontSize: '1.875rem',
+                color: 'var(--admin-primary)',
+                fontWeight: 700,
+                letterSpacing: '0.05em',
+                textTransform: 'uppercase',
+                margin: 0,
+              }}
+            >
+              HALO ARSITEK
+            </h1>
+          </div>
           <p
             style={{
               fontFamily: 'var(--font-outfit), sans-serif',
@@ -287,7 +305,7 @@ function LoginForm() {
             fontFamily: 'var(--font-outfit), sans-serif',
           }}
         >
-          © 2025 HaloArsitek. Admin Panel v1.0
+          © {new Date().getFullYear()} Halo Arsitek. Admin Panel v1.0
         </p>
       </div>
     </div>

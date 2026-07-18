@@ -108,7 +108,7 @@ export default function AdminDashboardPage() {
     <>
       <AdminTopbar title="Dashboard" subtitle="Website content & activity overview" />
 
-      <div className="p-4 md:p-8">
+      <div className="p-4 md:p-8 w-full">
         {isLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[1, 2, 3, 4].map((i) => (

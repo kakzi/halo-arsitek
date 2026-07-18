@@ -238,12 +238,12 @@ export default function ManageAdminsPage() {
   return (
     <>
       <AdminTopbar title="Manage Admins" subtitle="View and manage studio administrator credentials, roles, and access levels" />
-      <div className="p-4 md:p-8" style={{ maxWidth: '1200px' }}>
+      <div className="p-4 md:p-8 w-full">
         
         {/* Stats Bar */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-8">
           <div style={{ background: 'var(--admin-bg-card)', border: 'none', borderRadius: '8px', padding: '20px 24px', boxShadow: 'var(--admin-shadow)', display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: 'rgba(99, 102, 241, 0.1)', color: 'var(--admin-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: 'rgba(99, 102, 241, 0.1)', color: 'var(--admin-primary-text)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
               <Users size={24} />
             </div>
             <div>
@@ -551,7 +551,7 @@ export default function ManageAdminsPage() {
         {/* Admins Table Card */}
         {isLoading ? (
           <div style={{ padding: '64px 20px', textAlign: 'center', color: 'var(--admin-text-secondary)', background: 'var(--admin-bg-card)', borderRadius: '8px', border: 'none', boxShadow: 'var(--admin-shadow)' }}>
-            <Activity className="animate-spin mx-auto mb-4" size={28} style={{ color: 'var(--admin-primary)' }} />
+            <Activity className="animate-spin mx-auto mb-4" size={28} style={{ color: 'var(--admin-primary-text)' }} />
             <p style={{ margin: 0, fontSize: '0.9375rem', fontFamily: 'var(--font-outfit)' }}>Loading administrator directory...</p>
           </div>
         ) : (
@@ -632,7 +632,7 @@ export default function ManageAdminsPage() {
                                 )}
                               </div>
                               <div style={{ color: 'var(--admin-text-secondary)', fontSize: '0.8125rem', display: 'flex', alignItems: 'center', gap: '5px', marginTop: '3px' }}>
-                                <Mail size={13} style={{ color: 'var(--admin-primary)' }} /> {adm.email}
+                                <Mail size={13} style={{ color: 'var(--admin-primary-text)' }} /> {adm.email}
                               </div>
                             </div>
                           </div>

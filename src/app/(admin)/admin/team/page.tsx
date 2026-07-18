@@ -41,7 +41,7 @@ export default function TeamPage() {
   return (
     <>
       <AdminTopbar title="Team" subtitle="Manage team members" />
-      <div className="p-4 md:p-8">
+      <div className="p-4 md:p-8 w-full">
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '24px' }}>
           <p style={{ fontSize: '0.875rem', color: 'var(--admin-text-secondary)', margin: 0 }}>{members.length} member(s)</p>
           <button onClick={() => { resetForm(); setShowForm(true); }} style={{ padding: '10px 20px', background: 'var(--admin-primary)', borderRadius: '8px', color: '#FFFFFF', fontSize: '0.8125rem', fontWeight: 600, border: 'none', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '6px' }}><Plus size={16} /> Add New</button>
@@ -59,7 +59,7 @@ export default function TeamPage() {
                 <label style={labelStyle}>Photo</label>
                 <div style={{ display: 'flex', gap: '12px' }}>
                   <input type="text" value={form.image} onChange={(e) => setForm((p) => ({ ...p, image: e.target.value }))} required style={{ ...inputStyle, flex: 1 }} placeholder="Photo URL or upload" onFocus={(e) => (e.target.style.borderColor = 'var(--admin-primary)')} onBlur={(e) => (e.target.style.borderColor = 'var(--admin-border)')} />
-                  <label style={{ padding: '12px 16px', background: 'var(--admin-hover-bg)', border: '1px solid var(--admin-border)', borderRadius: '8px', color: 'var(--admin-primary)', fontSize: '0.8125rem', cursor: 'pointer', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: '6px' }}><Upload size={16} /> Upload<input type="file" accept="image/*" hidden onChange={(e) => { const f = e.target.files?.[0]; if (f) handleImageUpload(f); }} /></label>
+                  <label style={{ padding: '12px 16px', background: 'var(--admin-hover-bg)', border: '1px solid var(--admin-border)', borderRadius: '8px', color: 'var(--admin-primary-text)', fontSize: '0.8125rem', cursor: 'pointer', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 500 }}><Upload size={16} /> Upload<input type="file" accept="image/*" hidden onChange={(e) => { const f = e.target.files?.[0]; if (f) handleImageUpload(f); }} /></label>
                 </div>
               </div>
               <div style={{ display: 'flex', gap: '12px' }}>
@@ -78,9 +78,9 @@ export default function TeamPage() {
               </div>
               <div style={{ padding: '16px' }}>
                 <h3 style={{ color: 'var(--admin-text-primary)', fontSize: '0.9375rem', fontWeight: 600, margin: '0 0 4px', fontFamily: 'var(--font-outfit), sans-serif' }}>{m.name}</h3>
-                <p style={{ color: 'var(--admin-primary)', fontSize: '0.75rem', margin: '0 0 12px' }}>{m.role}</p>
+                <p style={{ color: 'var(--admin-primary-text)', fontSize: '0.75rem', margin: '0 0 12px', fontWeight: 500 }}>{m.role}</p>
                 <div style={{ display: 'flex', gap: '8px' }}>
-                  <button onClick={() => handleEdit(m)} style={{ padding: '4px 12px', borderRadius: '6px', background: 'var(--admin-hover-bg)', color: 'var(--admin-primary)', fontSize: '0.75rem', border: '1px solid var(--admin-border)', cursor: 'pointer', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}><Edit2 size={13} /> Edit</button>
+                  <button onClick={() => handleEdit(m)} style={{ padding: '4px 12px', borderRadius: '6px', background: 'var(--admin-hover-bg)', color: 'var(--admin-primary-text)', fontSize: '0.75rem', border: '1px solid var(--admin-border)', cursor: 'pointer', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', fontWeight: 500 }}><Edit2 size={13} /> Edit</button>
                   <button onClick={() => handleDelete(m.id)} style={{ padding: '4px 12px', borderRadius: '6px', background: 'rgba(239,68,68,0.1)', color: '#EF4444', fontSize: '0.75rem', border: '1px solid rgba(239,68,68,0.2)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}><Trash2 size={13} /> Delete</button>
                 </div>
               </div>

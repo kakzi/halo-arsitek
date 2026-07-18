@@ -20,6 +20,7 @@ export default function NewProjectPage() {
     coverImage: '',
     images: [] as string[],
     isPublished: false,
+    isHeadliner: false,
   });
   const [isUploadingGallery, setIsUploadingGallery] = useState(false);
   const [newGalleryUrl, setNewGalleryUrl] = useState('');
@@ -160,7 +161,7 @@ export default function NewProjectPage() {
     <>
       <AdminTopbar title="Add New Project" subtitle="Create a new architectural portfolio project" />
 
-      <div className="p-4 md:p-8 max-w-4xl">
+      <div className="p-4 md:p-8 w-full">
         {error && (
           <div
             style={{
@@ -587,38 +588,74 @@ export default function NewProjectPage() {
               )}
             </div>
 
-            {/* Published Toggle */}
-            <div style={{ marginBottom: '32px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <button
-                type="button"
-                onClick={() => setForm((prev) => ({ ...prev, isPublished: !prev.isPublished }))}
-                style={{
-                  width: '44px',
-                  height: '24px',
-                  borderRadius: '12px',
-                  border: 'none',
-                  background: form.isPublished ? 'var(--admin-primary)' : '#E5E7EB',
-                  cursor: 'pointer',
-                  position: 'relative',
-                  transition: 'background 0.2s',
-                }}
-              >
-                <span
+            {/* Published & Headliner Toggles */}
+            <div style={{ marginBottom: '32px', display: 'flex', flexWrap: 'wrap', gap: '32px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <button
+                  type="button"
+                  onClick={() => setForm((prev) => ({ ...prev, isPublished: !prev.isPublished }))}
                   style={{
-                    position: 'absolute',
-                    top: '2px',
-                    left: form.isPublished ? '22px' : '2px',
-                    width: '20px',
-                    height: '20px',
-                    borderRadius: '50%',
-                    background: '#111827',
-                    transition: 'left 0.2s',
+                    width: '44px',
+                    height: '24px',
+                    borderRadius: '12px',
+                    border: 'none',
+                    background: form.isPublished ? 'var(--admin-primary)' : '#E5E7EB',
+                    cursor: 'pointer',
+                    position: 'relative',
+                    transition: 'background 0.2s',
                   }}
-                />
-              </button>
-              <span style={{ fontSize: '0.875rem', color: 'var(--admin-text-secondary)' }}>
-                {form.isPublished ? 'Published' : 'Draft'}
-              </span>
+                >
+                  <span
+                    style={{
+                      position: 'absolute',
+                      top: '2px',
+                      left: form.isPublished ? '22px' : '2px',
+                      width: '20px',
+                      height: '20px',
+                      borderRadius: '50%',
+                      background: '#111827',
+                      transition: 'left 0.2s',
+                    }}
+                  />
+                </button>
+                <span style={{ fontSize: '0.875rem', color: 'var(--admin-text-secondary)' }}>
+                  {form.isPublished ? 'Published' : 'Draft'}
+                </span>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <button
+                  type="button"
+                  onClick={() => setForm((prev) => ({ ...prev, isHeadliner: !prev.isHeadliner }))}
+                  style={{
+                    width: '44px',
+                    height: '24px',
+                    borderRadius: '12px',
+                    border: 'none',
+                    background: form.isHeadliner ? '#EAB308' : '#E5E7EB',
+                    cursor: 'pointer',
+                    position: 'relative',
+                    transition: 'background 0.2s',
+                  }}
+                >
+                  <span
+                    style={{
+                      position: 'absolute',
+                      top: '2px',
+                      left: form.isHeadliner ? '22px' : '2px',
+                      width: '20px',
+                      height: '20px',
+                      borderRadius: '50%',
+                      background: '#111827',
+                      transition: 'left 0.2s',
+                    }}
+                  />
+                </button>
+                <span style={{ fontSize: '0.875rem', color: 'var(--admin-text-secondary)', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                  <Star size={14} fill={form.isHeadliner ? '#EAB308' : 'none'} color={form.isHeadliner ? '#EAB308' : 'currentColor'} />
+                  {form.isHeadliner ? 'Headliner (Home Slider)' : 'Normal Project'}
+                </span>
+              </div>
             </div>
 
             {/* Actions */}

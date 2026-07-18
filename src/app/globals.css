@@ -23,45 +23,47 @@
 
 /* ─── ADMIN THEME VARIABLES ─────────────────────────────────────────────── */
 
-@layer base {
-  :root {
-    --admin-bg-page: #FFFFFF;
-    --admin-bg-card: #FFFFFF;
-    --admin-text-primary: #1C2434;
-    --admin-text-secondary: #64748B;
-    --admin-border: #E2E8F0;
-    --admin-hover-bg: #F1F5F9;
-    --admin-primary: #1E293B;
-    --admin-primary-hover: #334155;
-    
-    /* Sidebar Colors (Light Mode) */
-    --admin-sidebar-bg: #FFFFFF;
-    --admin-sidebar-text: #1C2434;
-    --admin-sidebar-text-muted: #64748B;
-    --admin-sidebar-hover: #F1F5F9;
-    --admin-sidebar-active: #F1F5F9;
-    
-    --admin-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 0 1px rgba(0,0,0,0.04);
-  }
+:root {
+  --admin-bg-page: #FFFFFF;
+  --admin-bg-card: #FFFFFF;
+  --admin-text-primary: #1C2434;
+  --admin-text-secondary: #64748B;
+  --admin-border: #E2E8F0;
+  --admin-hover-bg: #F1F5F9;
+  --admin-primary: #2563EB;
+  --admin-primary-hover: #1D4ED8;
+  --admin-primary-text: #2563EB;
+  
+  /* Sidebar Colors (Light Mode) */
+  --admin-sidebar-bg: #FFFFFF;
+  --admin-sidebar-text: #1C2434;
+  --admin-sidebar-text-muted: #64748B;
+  --admin-sidebar-hover: #F1F5F9;
+  --admin-sidebar-active: #EEF2FF;
+  
+  --admin-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 0 1px rgba(0,0,0,0.04);
+}
 
-  :root[data-theme='dark'] {
-    color-scheme: dark;
-    --admin-bg-page: #1A222C;
-    --admin-bg-card: #24303F;
-    --admin-text-primary: #FFFFFF;
-    --admin-text-secondary: #8A99AF;
-    --admin-border: #2E3A47;
-    --admin-hover-bg: #313D4A;
-    
-    /* Sidebar Colors (Dark Mode) */
-    --admin-sidebar-bg: #1C2434;
-    --admin-sidebar-text: #DEE4EE;
-    --admin-sidebar-text-muted: #8A99AF;
-    --admin-sidebar-hover: #333A48;
-    --admin-sidebar-active: #333A48;
-    
-    --admin-shadow: 0px 8px 13px -3px rgba(0, 0, 0, 0.4);
-  }
+:root[data-theme='dark'], [data-theme='dark'], .dark, html.dark {
+  color-scheme: dark;
+  --admin-bg-page: #0F172A;
+  --admin-bg-card: #1E293B;
+  --admin-text-primary: #F8FAFC;
+  --admin-text-secondary: #CBD5E1;
+  --admin-border: #334155;
+  --admin-hover-bg: #334155;
+  --admin-primary: #3B82F6;
+  --admin-primary-hover: #2563EB;
+  --admin-primary-text: #60A5FA;
+  
+  /* Sidebar Colors (Dark Mode) */
+  --admin-sidebar-bg: #0F172A;
+  --admin-sidebar-text: #F8FAFC;
+  --admin-sidebar-text-muted: #CBD5E1;
+  --admin-sidebar-hover: #1E293B;
+  --admin-sidebar-active: #1E293B;
+  
+  --admin-shadow: 0px 8px 20px -4px rgba(0, 0, 0, 0.5);
 }
 
 /* ─── BASE ──────────────────────────────────────────────────────────────── */
